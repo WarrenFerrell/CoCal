@@ -1,0 +1,26 @@
+{
+  "name": "cocal",
+  "version": "1.0.0",
+  "description": "public events calendar",
+  "main": "index.html",
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin McBride, Zachary Lamb, Adrian Chen, Warren Ferrell, Justin Schiller",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/WarrenFerrell/CoCal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WarrenFerrell/CoCal/issues"
+  },
+  "homepage": "https://github.com/WarrenFerrell/CoCal#readme"
+}
