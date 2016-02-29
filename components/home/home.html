@@ -1,0 +1,12 @@
+<h1>Home Page</h1>
+<a ui-sref=".user" class="btn btn-primary">User</a>
+<a ui-sref=".calendar" class="btn btn-primary">Calendar</a>
+<!-- <a ui-sref=".event( { id_event: 5 } )" class="btn btn-primary">Event</a> -->
+<div class="input-group">
+  <input type="text" class="form-control" ng-model="input_id_event" placeholder="0">
+  <span class="input-group-btn">
+    <button class="btn btn-primary" type="button" ng-click="clicked_Event_Go()">Go!</button>
+  </span>
+</div><!-- /input-group -->
+
+<ui-view/>

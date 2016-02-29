@@ -6,8 +6,20 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $stateProvider
     .state('home', {
       url: '/home',
-      templateUrl: 'components/home/landing.html',
-      controller: 'Controller_Landing'
+      templateUrl: 'components/home/home.html',
+      controller: 'Controller_Home'
+    })
+
+    .state('calendar', {
+      url: '/calendar',
+      templateUrl: 'components/calendar/calendar.html',
+      controller: 'Controller_Calendar'
+    })
+
+    .state('user', {
+      url: '/user',
+      templateUrl: 'components/user/user.html',
+      controller: 'Controller_User'
     })
 
     .state('home.user', {
@@ -23,7 +35,7 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
     })
 
     .state('home.event', {
-      url: '/event',
+      url: '/event/{id_event}',
       templateUrl: 'components/event/event.html',
       controller: 'Controller_Event'
     })
