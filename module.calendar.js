@@ -1,4 +1,4 @@
-var calendar = angular.module( "calendar", [ 'ui.router' ]);
+var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap' ]);
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/home' );

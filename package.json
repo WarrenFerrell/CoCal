@@ -4,11 +4,8 @@
   "description": "public events calendar",
   "main": "index.html",
   "dependencies": {
-    "angular": "^1.5.0",
-    "angular-ui-router": "^0.2.18",
-    "bootstrap": "^3.3.6",
+    "cors": "^2.7.1",
     "express": "^4.13.4",
-    "jquery": "^2.2.1",
     "mongoose": "^4.4.5"
   },
   "devDependencies": {},

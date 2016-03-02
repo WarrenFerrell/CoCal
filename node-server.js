@@ -1,11 +1,9 @@
 var express = require('express');
-var server = express();
-
+var cors = require('cors')
 var mongoose = require('mongoose');
 
-server.get( '/', function(req, res) {
-  res.sendFile( '/Users/justinmcbride/working/cal/index.html' );
-});
+var server = express();
+server.use( cors() );
 
 server.get( '/api/v1/events/:id', function(req, res) {
   var obj = { 
@@ -14,8 +12,8 @@ server.get( '/api/v1/events/:id', function(req, res) {
     Category: 'testCategory',
     Location: 'testLocation',
     Description: 'testDescription'
-    };
-    res.json( obj );
+  };
+  res.json( obj );
 });
 
 var server_port = 3111;
