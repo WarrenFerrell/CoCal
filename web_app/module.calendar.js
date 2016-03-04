@@ -22,16 +22,19 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
         '': {
           templateUrl: 'components/groups/group_meta.html',
           controller: 'Controller_Group_Meta'
-        },
-        'group_view@group': {
-          templateUrl: 'components/groups/group_view.html',
-          controller: function() {
+        }
+      }
+    })
 
-          }
+    .state('group.id', {
+      url: '/{id_group}',
+      views: {
+        '': {
+          template: ''
         },
-        'calendar@group': {
-          templateUrl: 'components/calendar/calendar.html',
-          controller: 'Controller_Calendar'
+        'group_view': {
+          templateUrl: 'components/groups/group_view.html',
+          controller: 'Controller_Group'
         }
       }
     })
@@ -60,6 +63,14 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_Event'
     })
 });
+
+calendar.config(function(calendarConfig) {
+    console.log(calendarConfig); //view all available config
+    calendarConfig.dateFormatter = 'angular'; //use either moment or angular to format dates on the calendar. Default angular. Setting this will override any date formats you have already set.
+    calendarConfig.displayAllMonthEvents = true; //This will display all events on a month view even if they're not in the current month. Default false.
+    calendarConfig.displayEventEndTimes = true; //This will display event end times on the month and year views. Default false.
+    calendarConfig.showTimesOnWeekView = true; //Make the week view more like the day view, with the caveat that event end times are ignored.
+  });
 
 calendar.run(($rootScope) => {
   $rootScope.$on("$stateChangeError", console.log.bind(console));

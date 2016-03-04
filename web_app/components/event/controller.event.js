@@ -13,4 +13,16 @@ calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', fun
       console.log( "error" );
     })
   ;
+  $http.get( 'http://localhost:3111/api/v1/groups/' )
+    .success( function(response) {
+      $scope.Groups = response;
+    })
+    .error( function() {
+      console.log( "error" );
+    })
+  ;
+  $scope.date_options = {
+    showWeeks: false,
+  };
+  $scope.hours_24 = false;
 }]);

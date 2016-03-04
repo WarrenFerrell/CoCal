@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-md-2">
+  <div class="col-md-2 well">
     <button class="btn btn-primary btn-block" type="button">Create Group</button>
-    <button class="btn btn-info btn-block" ng-repeat="groupName in Groups">{{groupName}}</button>
+    <button class="btn btn-info btn-block" ng-repeat="group in Groups" ng-click="event_clicked_groupName(group.id)">{{group.name}}</button>
   </div>
   <div class="col-md-10">
     <div ui-view="group_view"></div>

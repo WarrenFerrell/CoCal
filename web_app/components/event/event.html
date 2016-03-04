@@ -3,37 +3,62 @@
     <h3 class="panel-title">Event Information</h3>
   </div>
   <div class="panel-body">
-    Title: <input type="text" ng-model="input_title"></input></br>
-    Cost: <input type="text" ng-model="input_cost"></input></br>
-    Location: <input type="text" ng-model="input_location"></input></br>
-    Description: <input type="text" ng-model="input_description"></input></br>
-    <!-- <uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="inlineOptions"></uib-datepicker> -->
-    <!-- <uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker> -->
-    <select class="form-control">
-      <option>Entertainment</option>
-      <option>Competition</option>
-      <option>Dog Show</option>
-    </select> <br>
-
-    <select class="form-control">
-      <option>Public</option>
-      <option>Private</option>
-      <option>Group 1</option>
-      <option>Group 2</option>
-      <option>Group 3</option>
-    </select><br>
+    <div class="row">
+      <div class="col-md-2">Title</div>
+      <div class="col-md-10"><input type="text" ng-model="input_title"></input></div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Cost</div>
+      <div class="col-md-10"><input type="text" ng-model="input_cost"></input></div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Location</div>
+      <div class="col-md-10"><input type="text" ng-model="input_location"></input></div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Description</div>
+      <div class="col-md-10"><input type="text" ng-model="input_description"></input></div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Category</div>
+      <div class="col-md-10">
+        <select class="form-control">
+          <option>Uncategorized</option>
+          <option>Entertainment</option>
+          <option>Competition</option>
+          <option>Dog Show</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Privacy</div>
+      <div class="col-md-10">
+        <select class="form-control">
+          <option>Public</option>
+          <option>Private</option>
+          <option ng-repeat="group in Groups">{{group.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Date</div>
+      <div class="col-md-10">
+        <uib-datepicker
+          ng-model="input_date"
+          datepicker-options="date_options"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Time</div>
+      <div class="col-md-10">
+        <uib-timepicker
+          ng-model="input_time"
+          hour-step=1
+          minute-step=1
+          show-meridian="hours_24"
+        />
+      </div>
+    </div>
   </div>
-
-<!-- <div class="row">
-  <div class="col-md-4">User Name</div>
-  <div class="col-md-8"><input type="text" ng-model="name"></input></div>
-</div>
-<div class="row">
-  <div class="col-md-4">Email</div>
-  <div class="col-md-8"><input type="text" ng-model="email"></input></div>
-</div>
-<div class="row">
-  <div class="col-md-4">Password</div>
-  <div class="col-md-8"><input type="password" ng-model="password"></input></div>
-</div> -->
 </div>

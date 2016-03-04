@@ -6,7 +6,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.4/interact.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
-  <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   
@@ -18,6 +18,7 @@
   <script src="components/home/controller.home.js"></script>
   <script src="components/event/controller.event.js"></script>
   <script src="components/groups/controller.group.meta.js"></script>
+  <script src="components/groups/controller.group.js"></script>
 
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css" />
@@ -38,8 +39,8 @@
         <ul class="nav navbar-nav">
           <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
           <li ui-sref-active="active"><a ui-sref="user">User</a></li>
-          <li ui-sref-active="active"><a ui-sref="calendar">Calendar</a></li>
-          <li ui-sref-active="active"><a ui-sref="group">Group</a></li>
+          <li ui-sref-active="active"><a ui-sref="calendar">My Calendar</a></li>
+          <li ui-sref-active="active"><a ui-sref="group">My Groups</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
