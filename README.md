@@ -21,4 +21,4 @@ First, within the ./web_app/ directory, run a `bower install` to install the req
 Then, the easiest way to run this application is to run `python -m SimpleHTTPServer` within the ./web_app/ directory. Running this Python module will serve the app on `localhost:8000` by default.
 ### NodeJS Server
 First, within the ./api_server/ directory, run a `npm install` to install the necessary NodeJS modules.
-Then, execute `nodejs node-server.js` within the ./api_server/ directory.
+Then, execute `node node-server.js` within the ./api_server/ directory.
