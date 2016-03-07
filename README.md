@@ -28,7 +28,7 @@ Justin Schiller
 ### AngularJS Application
 First, within the ./web_app/ directory, run a `bower install` to install the required JS/CSS libraries.
 
-Then, the easiest way to run this application is to run `python -m SimpleHTTPServer` within the ./web_app/ directory. Running this Python module will serve the app on `localhost:8000` by default.
+Then, the easiest way to run this application is to run `python -m SimpleHTTPServer` (or http.server on windows) within the ./web_app/ directory. Running this Python module will serve the app on `localhost:8000` by default.
 ### NodeJS Server
 First, within the ./api_server/ directory, run a `npm install` to install the necessary NodeJS modules.
 
