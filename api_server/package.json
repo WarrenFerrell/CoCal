@@ -4,6 +4,7 @@
   "description": "public events calendar",
   "main": "index.html",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "mongoose": "^4.4.5"

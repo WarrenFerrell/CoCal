@@ -22,18 +22,15 @@
     <div class="row">
       <div class="col-md-2">Category</div>
       <div class="col-md-10">
-        <select class="form-control">
-          <option>Uncategorized</option>
-          <option>Entertainment</option>
-          <option>Competition</option>
-          <option>Dog Show</option>
+        <select class="form-control" ng-model="input_category">
+          <option ng-repeat="category in Categories">{{category}}</option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="col-md-2">Privacy</div>
       <div class="col-md-10">
-        <select class="form-control">
+        <select class="form-control" ng-model="input_privacy">
           <option>Public</option>
           <option>Private</option>
           <option ng-repeat="group in Groups">{{group.name}}</option>
@@ -50,15 +47,32 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">Time</div>
+      <div class="col-md-2">Starting Time</div>
       <div class="col-md-10">
         <uib-timepicker
-          ng-model="input_time"
-          hour-step=1
-          minute-step=1
+          ng-model="input_time_start"
+          hour-step="hstep"
+          minute-step="mstep"
           show-meridian="hours_24"
         />
       </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">Ending Time</div>
+      <div class="col-md-10">
+        <uib-timepicker
+          ng-model="input_time_end"
+          hour-step="hstep"
+          minute-step="mstep"
+          show-meridian="hours_24"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn btn-success btn-large btn-block" ng-click="onClick_save()">
+        Save Event
+      </button>
     </div>
   </div>
 </div>
