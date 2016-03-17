@@ -59,7 +59,7 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
 
     .state('home.event', {
       url: '/event/{id_event}',
-      templateUrl: 'components/event/event.html',
+      templateUrl: 'components/event/edit_event.html',
       controller: 'Controller_Event'
     })
 });

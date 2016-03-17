@@ -1,9 +1,25 @@
 var express = require('express');
-var cors = require('cors')
+var cors = require('cors');
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var credentials = require('./credentials');
+var models = require('./db_schema');
+
+var options = {
+  user: credentials.mongo_user,
+  pass: credentials.mongo_pass
+}
+mongoose.connect( "mongodb://ds023388.mlab.com:23388/cocal", options);
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log( "Connected to mongo" );
+});
 
 var server = express();
 server.use( cors() );
+server.use( bodyParser.json() );
 
 server.get( '/api/v1/events/:id', function(req, res) {
   var id = req.params['id'];
@@ -17,58 +33,53 @@ server.get( '/api/v1/events/:id', function(req, res) {
   res.json( obj );
 });
 
-var groups = [
-    { 
-      name: "Dog Lovers",
-      id: 1,
-      members: [
-        "Member 1",
-        "Member 2",
-        "Member 3",
-        "Member 4",
-        "Member 5",
-      ]
-    },
-    { 
-      name: "Cat Lovers",
-      id: 2,
-      members: [
-        "Test 1",
-        "Test 2",
-        "Test 3",
-        "Test 4",
-        "Test 5",
-      ]
-    },
-    { 
-      name: "Brocolli Lovers",
-      id: 3,
-      members: []
-    },
-    { 
-      name: "Car Lovers",
-      id: 4,
-      members: [
-        "Justin",
-        "Quinn",
-        "Irfan",
-        "Tim",
-        "Emma Stone",
-      ]
-    }
-];
+
 
 server.get( '/api/v1/group/:id', function(req, res) {
-  var id = req.params['id'];
-  var result = groups.filter( function( obj ) {
-    return obj.id == id;
-  });
-  console.log( result );
-  res.json( result[0] );
+  var groupID = req.params['id'];
+  models.Group
+    .findOne( { _id: groupID } )
+    .populate( 'members' )
+    .exec( function( error, result ) {
+      if( error ) {
+        console.log( "group id error" );
+        return;
+      }
+      if( !result ) {
+        console.log( "group id not found" );
+        return;
+      }
+      console.log( result );
+      res.json( result );
+    });
 });
 
-server.get( '/api/v1/groups/', function(req, res) {
-  res.json( groups );
+server.get( '/api/v1/groups/:userID', function(req, res) {
+  var userID = req.params['userID'];
+  models.User
+    .findOne( { _id : userID } )
+    .populate({
+      path: 'groups',
+      select: 'name _id'
+    })
+    .exec( function( error, user ) {
+      if( error ) {
+        console.log( error );
+        return;
+      }
+      console.log( "groups result: " + user.groups );
+      res.json( user.groups );
+    });
+  // models.User.find( { members: userID }, function( error, result ) {
+  //   console.log( "groups result: " + result );
+  //   res.json( result );
+  // } );
+});
+
+server.post( '/api/v1/events', function(req, res) {
+ var details = req.body;
+ console.log( details );
+ res.send();
 });
 
 var server_port = 3111;
