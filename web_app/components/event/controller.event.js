@@ -22,7 +22,7 @@ calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', fun
     ;
   }
 
-  $http.get( 'http://localhost:3111/api/v1/groups/56dd2c3aa0a5453d0baa35e9' )
+  $http.get( 'http://localhost:3111/api/v1/groups/56ef8bda7c2acb755acfdd1a' )
     .success( function(response) {
       console.log( response );
       $scope.Groups = response;
@@ -43,8 +43,10 @@ calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', fun
       time_start: $scope.input_time_start,
       time_end: $scope.input_time_end,
       category: $scope.input_category,
-      privacy: $scope.input_privacy
+      privacy: $scope.input_privacy,
+      userID: $scope.input_userID
     };
+
     $http.post( 'http://localhost:3111/api/v1/events', details )
       .success( function( response ) {
         console.log( "cool" );

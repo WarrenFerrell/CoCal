@@ -16,27 +16,23 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_Calendar'
     })
 
+
+    .state('create_event', {
+      url: '/create',
+      templateUrl: 'components/event/edit_event.html',
+      controller: 'Controller_Event'
+    })
+
     .state('group', {
       url: '/group',
-      views: {
-        '': {
-          templateUrl: 'components/groups/group_meta.html',
-          controller: 'Controller_Group_Meta'
-        }
-      }
+      templateUrl: 'components/groups/group_meta.html',
+      controller: 'Controller_Group_Meta'
     })
 
     .state('group.id', {
       url: '/{id_group}',
-      views: {
-        '': {
-          template: ''
-        },
-        'group_view': {
-          templateUrl: 'components/groups/group_view.html',
-          controller: 'Controller_Group'
-        }
-      }
+      templateUrl: 'components/groups/group_view.html',
+      controller: 'Controller_Group'
     })
 
     .state('user', {
