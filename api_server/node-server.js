@@ -135,7 +135,10 @@ server.post( '/api/v1/events', function(req, res) {
       .findOne()
       .where( { _id: userID } )
       // .select( 'calendar' )
-      .populate( 'calendar' )
+      .populate( {
+        path: 'calendar',
+        select: 'name _id'
+      } )
       .exec( function( error, user ) {
         if( error ) {
           console.log( "error finding personal calendar" );
@@ -145,14 +148,19 @@ server.post( '/api/v1/events', function(req, res) {
         if( !user ) {
           return false;
         }
-        user.calendar.events += eventID;
-        user.calendar.save(function( error2 ) {
-          if( error2 ) {
-            console.log( "error2" );
-            return false;
+        var thing = models.Calendar.update(
+          { _id: user.calendar._id },
+          { $push: {
+              events: eventID
+            }
+          }, function( error2, result ) {
+            if( error2 ) {
+              consoloe.log( "error saving event to calendar: " + error2 );
+              return;
+            }
+            console.log( "event saved to personal calendar: " + result );
           }
-          return true;
-        });
+        );
       })
     ;
   }
