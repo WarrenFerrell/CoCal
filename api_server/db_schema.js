@@ -10,14 +10,16 @@ var schema_Event = new mongoose.Schema({
 });
 
 var schema_User = new mongoose.Schema({
-  name:     { type: String,  default: "User Name" },
-  email:    { type: String,  default: "User Email" },
-  password: { type: String,  default: "UserPassword" },
-  isadmin:  { type: Boolean, default: false },
-  groups: [ { type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Group' } ],
-  calendar: { type: mongoose.Schema.Types.ObjectId,
-              ref: 'Calendar' },
+  name:     		{ type: String,  default: "User Name" },
+  email:   			{ type: String,  default: "User Email" },
+  password: 		{ type: String,  default: "UserPassword" },
+  notifications: 	[ ],
+  cleared: 			[ ],
+  isadmin:  		{ type: Boolean, default: false },
+  groups: 			[ { type: mongoose.Schema.Types.ObjectId, 
+					ref: 'Group' } ],
+  calendar: 		{ type: mongoose.Schema.Types.ObjectId,
+					ref: 'Calendar' },
 });
 
 var schema_Group = new mongoose.Schema({
