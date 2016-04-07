@@ -1,8 +1,6 @@
 'use strict';
 
-calendar.controller( "Controller_Calendar", [ '$scope', '$http', 'Session', function( $scope, $http, Session ) {
-
-  console.log( "calendar id: " + Session.id_calendar );
+calendar.controller( "Controller_Calendar", [ '$scope', '$http', 'Session', 'EventTransform', function( $scope, $http, Session, EventTransform ) {
   $scope.calendarView = 'month';
   $scope.calendarDate = moment();
   $scope.isCellOpen = true;
@@ -12,16 +10,7 @@ calendar.controller( "Controller_Calendar", [ '$scope', '$http', 'Session', func
       console.log( response );
       var events = [];
       angular.forEach( response, function( value, index ) {
-        var e = {
-          title:  value.title,
-          startsAt: moment( value.startsAt ).toDate(),
-          endsAt: moment( value.endsAt ).toDate(),
-          type : "info",
-          draggable: false,
-          resizable: false,
-        };
-        console.log( e );
-        events.push(e);
+        events.push( EventTransform.toNg(value) );
       });
       $scope.events = events;
     })

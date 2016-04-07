@@ -2,19 +2,15 @@
 <div class="panel-heading">
   <h3>Event Information</h3>
 </div>
-<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+<uib-alert ng-model="alert" ng-show="alert != null" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 <div class="panel-body">
-  <div class="row">
-    <div class="col-md-2">User</div>
-    <div class="col-md-10"><input type="text" ng-model="input_userID"></input></div>
-  </div>
   <div class="row">
     <div class="col-md-2">Title</div>
     <div class="col-md-10"><input type="text" ng-model="input_title"></input></div>
   </div>
   <div class="row">
     <div class="col-md-2">Cost</div>
-    <div class="col-md-10"><input type="text" ng-model="input_cost"></input></div>
+    <div class="col-md-10"><input type="number" ng-model="input_cost"></input></div>
   </div>
   <div class="row">
     <div class="col-md-2">Location</div>
@@ -36,9 +32,9 @@
     <div class="col-md-2">Privacy</div>
     <div class="col-md-10">
       <select class="form-control" ng-model="input_privacy">
-        <option>Public</option>
-        <option>Private</option>
-        <option ng-repeat="group in Groups">{{group.name}}</option>
+        <option value="Public">Public</option>
+        <option value="Private">Private</option>
+        <option ng-repeat="group in Groups" value="{{group._id}}">{{group.name}}</option>
       </select>
     </div>
   </div>
