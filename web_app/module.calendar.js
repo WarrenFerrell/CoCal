@@ -45,24 +45,6 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       templateUrl: 'components/user/user.html',
       controller: 'Controller_User'
     })
-
-    .state('home.user', {
-      url: '/user',
-      templateUrl: 'components/user/user.html',
-      controller: 'Controller_User'
-    })
-
-    .state('home.calendar', {
-      url: '/calendar',
-      templateUrl: 'components/calendar/calendar.html',
-      controller: 'Controller_Calendar'
-    })
-
-    .state('home.event', {
-      url: '/event/{id_event}',
-      templateUrl: 'components/event/edit_event.html',
-      controller: 'Controller_Event'
-    })
 });
 
 calendar.config( function(calendarConfig) {
