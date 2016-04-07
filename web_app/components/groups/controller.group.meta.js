@@ -11,7 +11,10 @@ calendar.controller( "Controller_Group_Meta", function( $scope, $state, $http, $
   ;
 
   $scope.event_clicked_groupName = function( id ) {
-    console.log( "going to group with id=" + id );
     $state.go( "group.id", { id_group: id } );
+  };
+
+  $scope.event_clicked_createGroup = function() {
+    $state.go( "group.new" );
   };
 });
