@@ -20,7 +20,7 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
     .state('create_event', {
       url: '/create',
       templateUrl: 'components/event/edit_event.html',
-      controller: 'Controller_Event'
+      controller: 'Controller_Event_New'
     })
 
     .state('group', {

@@ -5,7 +5,8 @@ var schema_Event = new mongoose.Schema({
   cost:        { type: Number, default: 0 },
   location:    { type: String, default: "" },
   description: { type: String, default: "Event Description" },
-  date:        { type: Date,   default: Date.now() },
+  startsAt:    { type: Date,   default: Date.now() },
+  endsAt:      { type: Date,   default: Date.now() },
   category:    { type: String, default: "Event Category" },
 });
 
