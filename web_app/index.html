@@ -13,6 +13,7 @@
   <script src="module.calendar.js"></script>
   <script src="service.auth.js"></script>
   <script src="service.eventtransform.js"></script>
+  <script src="components/navbar/controller.navbar.js"></script>
   <script src="components/user/controller.user.js"></script>
   <script src="components/calendar/controller.calendar.js"></script>
   <script src="components/home/controller.home.js"></script>
@@ -26,7 +27,7 @@
   <link rel="stylesheet" href="bower_components/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css" />
 </head>
 <body ng-app="calendar">
-  <nav class="navbar navbar-default navbar-static-top">
+  <nav ng-controller="Controller_Navbar" class="navbar navbar-default navbar-static-top">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -40,10 +41,12 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
-          <li ui-sref-active="active"><a ui-sref="user">User</a></li>
           <li ui-sref-active="active"><a ui-sref="calendar">My Calendar</a></li>
           <li ui-sref-active="active"><a ui-sref="group">My Groups</a></li>
           <li ui-sref-active="active"><a ui-sref="notifications">My Notifications</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li ui-sref-active="active"><a ui-sref="user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>User: {{username}}</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
