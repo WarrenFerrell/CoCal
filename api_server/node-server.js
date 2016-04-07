@@ -80,9 +80,47 @@ server.get( '/api/v1/group/:id', function(req, res) {
     });
 });
 
+server.get( '/api/v1/calendar/:calendarID', function(req, res) {
+  // this endpoint should return a list of all the groups that a user belongs to
+  var calendarID = req.params['calendarID'];
+
+  // console.log( "calendarID: " + calendarID );
+
+  models.Calendar
+    .findOne( { _id : calendarID } )
+    .populate({
+      path: 'events', // expand out all of the groups
+    })
+    .exec( function( error, calendar ) {
+      if( error ) {
+        var errorString = "error finding calendar with id=" + calendarID + ", " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      }
+      else
+      {
+        if( calendar && calendar.events ) {
+          // console.log( "events result: " );
+          // console.log( calendar.events );
+          res.json( calendar.events );
+        }
+        else {
+          var errorString = "No calendar or calendar events";
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    }
+  );
+});
+
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-  var userID = req.body.userID;
+  var userID = req.params['userID'];
+
+  console.log( "user id: " + userID );
 
   models.User
     .findOne( { _id : userID } )
@@ -92,18 +130,23 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
     })
     .exec( function( error, user ) {
       if( error ) {
-        console.log( "error finding user with id=" + userID + ", " + error );
-        res.send( 500 );
+        var errorString = "error finding user with id=" + userID + ", " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
       }
       else
       {
         if(user && user.groups) {
-          console.log( "groups result: " );
-          console.log( user.groups );
+          // console.log( "groups result: " );
+          // console.log( user.groups );
           res.json( user.groups );
         }
         else {
-          res.send( 500 );
+          var errorString = "No user or user groups";
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
         }
       }
     }
@@ -118,8 +161,9 @@ server.post( '/api/v1/users', function(req, res) {
 
   newUser.save( function( error ) {
     if( error ) {
-      console.log( "error saving new user: " + error );
-      res.send( 500, { status: 500, message: "couldn't create db entry: " + error, type: "internal" } );
+      var errorString = "error saving new user: " + error;
+      console.log( errorString );
+      res.status(500).send( errorString );
       return;
     }
 
@@ -127,11 +171,11 @@ server.post( '/api/v1/users', function(req, res) {
     theirCalendar.name = newUser.name +"'s Personal";
     theirCalendar.owner = newUser._id;
 
-
     theirCalendar.save( function( error2 ) {
       if( error2 ) {
-        console.log( "error saving new user's calendar: " + error2 );
-        res.send( 500, error2 );
+        var errorString = "Error saving new user's calendar: " + error2;
+        console.log( errorString );
+        res.status(500).send( errorString );
         return;
       };
       newUser.calendar = theirCalendar._id;
@@ -148,6 +192,7 @@ server.post( '/api/v1/events', function(req, res) {
   // the creating user's personal calendar, as well as any selected
   // calendars, such as a group
   // we get the userID and other details from the post body
+  console.log(req.body);
   var userID = req.body.userID;
   var groupID = "???";
 
@@ -159,12 +204,12 @@ server.post( '/api/v1/events', function(req, res) {
   newEvent.cost = req.body.cost;
   newEvent.location = req.body.location;
   newEvent.description = req.body.description;
-  newEvent.date = req.body.date;
+  newEvent.startsAt = req.body.startsAt;
+  newEvent.endsAt = req.body.endsAt;
   newEvent.category = req.body.category;
 
   // define the below function to avoid putting it into three places
   var saveToPersonalCalendar = function(eventID, userID) {
-    console.log( "saveToPersonalCalendar: userID=" + userID );
     models.User
       .findOne()
       .where( { _id: userID } )
@@ -193,8 +238,7 @@ server.post( '/api/v1/events', function(req, res) {
               consoloe.log( "saveToPersonalCalendar: error saving event to calendar: " + error2 );
               return false;
             }
-            console.log( "event saved to personal calendar: " );
-            console.log( result );
+            console.log( "event saved to personal calendar" );
             return true;
           }
         );
@@ -209,8 +253,9 @@ server.post( '/api/v1/events', function(req, res) {
   var savedToCalendarCorrectly = false;
   newEvent.save( function(error) {
     if( error ) {
-      console.log( "error saving new event: " + error );
-      res.send( 500, { status: 500, message: "couldn't create db entry: " + error, type: "internal" } );
+      var errorString = "Error saving new event: " + error;
+      console.log( errorString );
+      res.status(500).send(errorString);
       return;
     }
 
@@ -230,8 +275,9 @@ server.post( '/api/v1/events', function(req, res) {
         .findByIdAndUpdate( groupID, { $push: { events: newEvent._id } },
           function( error, result ) {
             if( error ) {
-              console.log( "error adding saved event to calendar: " + error );
-              res.send( 500, { status: 500, message: "couldn't create db entry: " + error, type: "internal" } );
+              var errorString = "error adding saved event to calendar: " + error;
+              console.log( errorString );
+              res.status(500).send( errorString );
               return;
             }
           }

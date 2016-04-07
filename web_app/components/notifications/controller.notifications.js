@@ -1,10 +1,10 @@
 'use strict';
-calendar.controller( "Controller_Notifications", ['$scope', '$http', '$stateParams', function( $scope, $http, $stateParams ) {
+calendar.controller( "Controller_Notifications", ['$scope', '$http', '$stateParams', 'Session', function( $scope, $http, $stateParams, Session ) {
   $scope.user = "Test";
   $scope.notifications = "THESE ARE NOTIFICATIONS";
   $scope.cleared = "THESE USED TO BE NOTIFICATIONS";
 
-  $http.get( 'http://localhost:3111/api/v1/groups/56ef8bda7c2acb755acfdd1a' )
+  $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
     .success( function(response) {
       console.log( response );
       $scope.Groups = response;
