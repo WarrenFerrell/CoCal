@@ -1,9 +1,14 @@
 'use strict';
 
+
 calendar.controller( "Controller_Group_Meta", function( $scope, $state, $http, $stateParams, $view, Session ) {
   $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
+
+
+
     .success( function(response) {
       $scope.Groups = response;
+	  console.log(success);
     })
     .error( function() {
       console.log( "error" );
