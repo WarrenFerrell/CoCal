@@ -102,7 +102,12 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
 
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
+
   var userID = req.params['userID'];
+
+  
+  console.log( "user id in groups" + userID);
+
 
   models.User
     .findOne( { _id : userID } )
@@ -127,10 +132,46 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
           console.log( errorString );
           res.status(500).send( errorString );
           return;
+
+			console.log( "no user or user groups" );
+          res.send( 500 );
         }
       }
     }
   );
+});
+
+server.get( '/api/v1/notifications/:userID', function(req, res) {
+
+  var userID = req.params['userID'];
+  console.log( "hello: " + userID );
+
+  models.User
+    .findOne()
+	.where( { _id : userID } )
+    .exec( function( error, user ) {
+		console.log("in callback");
+      if( error ) {
+        console.log( "error finding user with id=" + userID + ", " + error );
+        res.send( 500 );
+      }
+      else
+      {
+		  console.log("one mroe");
+        if(user && user.notifications) {
+          console.log( "notifications result: " );
+          console.log( user.notifications );
+          res.json( user.notifications );
+        }
+        else {
+			console.log( "no use ror notifications" );
+          res.send( 500 );
+        }
+      }
+    }
+  );
+  
+  console.log("after query");
 });
 
 server.post( '/api/v1/users', function(req, res) {

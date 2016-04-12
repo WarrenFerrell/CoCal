@@ -1,18 +1,16 @@
 'use strict';
-calendar.controller( "Controller_Notifications", ['$scope', '$http', '$stateParams', 'Session', function( $scope, $http, $stateParams, Session ) {
-  $scope.user = "Test";
-  $scope.notifications = "THESE ARE NOTIFICATIONS";
-  $scope.cleared = "THESE USED TO BE NOTIFICATIONS";
+calendar.controller( "Controller_Notifications", ['$scope', '$http', '$stateParams', function( $scope, $http, $stateParams ) {
 
-  $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
+	var user_id = "56ef8e229df30dea5a776488";
+	console.log( "user id in notifications controller: "  + user_id );
+  $http.get( 'http://localhost:3111/api/v1/notifications/' + user_id )
     .success( function(response) {
       console.log( response );
-      $scope.Groups = response;
+      $scope.notifications = response;
     })
     .error( function() {
-      console.log( "error getting groups" );
-    })
-  ;
+      console.log( "error getting notifications" );
+    });
 
   $scope.onClick_save = function() {
     console.log( "clicked save" );
