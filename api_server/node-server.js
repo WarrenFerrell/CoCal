@@ -101,11 +101,13 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
 
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-
   var userID = req.params['userID'];
+
 
   
   console.log( "user id in groups " + userID);
+
+
 
 
   models.User
@@ -132,6 +134,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
           console.log( errorString );
           res.status(500).send( errorString );
           return;
+
 
 			console.log( "no user or user groups" );
           res.send( 500 );
@@ -167,8 +170,6 @@ console.log(db.readyState);
       }
     }
   );
-  
-  console.log("after query");
 });
 
 server.post( '/api/v1/users', function(req, res) {
