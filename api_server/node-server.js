@@ -104,6 +104,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
   var userID = req.params['userID'];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   
   console.log( "user id in groups " + userID);
@@ -111,6 +112,8 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
 
 
 
+=======
+>>>>>>> parent of 7fcd972... Updated notifications stuff
 =======
 >>>>>>> parent of 7fcd972... Updated notifications stuff
   models.User
@@ -137,6 +140,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
           console.log( errorString );
           res.status(500).send( errorString );
           return;
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -170,6 +174,8 @@ console.log(db.readyState);
         else {
 			console.log( "no use ror notifications" );
           res.send( 500 );
+=======
+>>>>>>> parent of 7fcd972... Updated notifications stuff
 =======
 >>>>>>> parent of 7fcd972... Updated notifications stuff
         }
