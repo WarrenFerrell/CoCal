@@ -1,9 +1,7 @@
 'use strict';
-calendar.controller( "Controller_Notifications", ['$scope', '$http', '$stateParams', function( $scope, $http, $stateParams ) {
-
-	var user_id = "56ef8e229df30dea5a776488";
-	console.log( "user id in notifications controller: "  + user_id );
-  $http.get( 'http://localhost:3111/api/v1/notifications/' + user_id )
+calendar.controller( "Controller_Notifications", function( $scope, $state, $http, $stateParams, $view, Session ) {
+	console.log("user NOtifications " + Session.id_user);
+  $http.get( 'http://localhost:3111/api/v1/notifications/' + Session.id_user )
     .success( function(response) {
       console.log( response );
       $scope.notifications = response;
@@ -29,5 +27,5 @@ calendar.controller( "Controller_Notifications", ['$scope', '$http', '$statePara
       });
   };
 
-}]);
+});
 
