@@ -14,7 +14,6 @@ var bodyParser = require('body-parser'); // parses all express body requests and
 var mongoose = require('mongoose'); // facilitates connection to the MongoDB backend
 var credentials = require('./credentials'); // local file with the MongoDB credentials. separate file so that they're not accidently commited
 var models = require('./db_schema'); // representations of the DB for mongoose to communicate with mongo
-
 // do the actual connecting to the mongo database. currently it's stored on mongolabs
 // and you need the credentials that are shared only internally. modify the ./credentials.js
 // file with them so that mongoose can connect to mongo
@@ -24,7 +23,7 @@ var options = {
 }
 mongoose.connect( "mongodb://ds023388.mlab.com:23388/cocal", options);
 var db = mongoose.connection;
-
+console.log(db.readyState);
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log( "Connected to mongo" );
@@ -106,7 +105,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
   var userID = req.params['userID'];
 
   
-  console.log( "user id in groups" + userID);
+  console.log( "user id in groups " + userID);
 
 
   models.User
@@ -126,6 +125,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
       {
         if(user && user.groups) {
           res.json( user.groups );
+		  console.log("woo");
         }
         else {
           var errorString = "No user or user groups";
@@ -142,13 +142,10 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
 });
 
 server.get( '/api/v1/notifications/:userID', function(req, res) {
-
+console.log(db.readyState);
   var userID = req.params['userID'];
-  console.log( "hello: " + userID );
-
   models.User
-    .findOne()
-	.where( { _id : userID } )
+    .findOne( { _id : userID } )
     .exec( function( error, user ) {
 		console.log("in callback");
       if( error ) {
