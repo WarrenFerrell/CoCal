@@ -45,6 +45,12 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       templateUrl: 'components/user/user.html',
       controller: 'Controller_User'
     })
+	
+	.state('notifications', {
+		url:'/notifications',
+		templateUrl: 'components/notifications/notifications.html',
+		controller: 'Controller_Notifications'
+	})
 });
 
 calendar.config( function(calendarConfig) {
