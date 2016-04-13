@@ -103,6 +103,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
   var userID = req.params['userID'];
 
+<<<<<<< HEAD
 
   
   console.log( "user id in groups " + userID);
@@ -110,6 +111,8 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
 
 
 
+=======
+>>>>>>> parent of 7fcd972... Updated notifications stuff
   models.User
     .findOne( { _id : userID } )
     .populate({
@@ -134,6 +137,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
           console.log( errorString );
           res.status(500).send( errorString );
           return;
+<<<<<<< HEAD
 
 
 			console.log( "no user or user groups" );
@@ -166,6 +170,8 @@ console.log(db.readyState);
         else {
 			console.log( "no use ror notifications" );
           res.send( 500 );
+=======
+>>>>>>> parent of 7fcd972... Updated notifications stuff
         }
       }
     }
