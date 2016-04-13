@@ -23,7 +23,6 @@ var options = {
 }
 mongoose.connect( "mongodb://ds023388.mlab.com:23388/cocal", options);
 var db = mongoose.connection;
-console.log(db.readyState);
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log( "Connected to mongo" );
@@ -101,21 +100,8 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
 
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-  var userID = req.params['userID'];
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-  
+  var userID = req.params['userID'];  
   console.log( "user id in groups " + userID);
-
-
-
-
-=======
->>>>>>> parent of 7fcd972... Updated notifications stuff
-=======
->>>>>>> parent of 7fcd972... Updated notifications stuff
   models.User
     .findOne( { _id : userID } )
     .populate({
@@ -140,12 +126,6 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
           console.log( errorString );
           res.status(500).send( errorString );
           return;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-			console.log( "no user or user groups" );
-          res.send( 500 );
         }
       }
     }
@@ -153,31 +133,24 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
 });
 
 server.get( '/api/v1/notifications/:userID', function(req, res) {
-console.log(db.readyState);
   var userID = req.params['userID'];
   models.User
     .findOne( { _id : userID } )
     .exec( function( error, user ) {
-		console.log("in callback");
       if( error ) {
         console.log( "error finding user with id=" + userID + ", " + error );
         res.send( 500 );
       }
       else
       {
-		  console.log("one mroe");
         if(user && user.notifications) {
           console.log( "notifications result: " );
           console.log( user.notifications );
           res.json( user.notifications );
         }
         else {
-			console.log( "no use ror notifications" );
+			console.log( "no use for notifications" );
           res.send( 500 );
-=======
->>>>>>> parent of 7fcd972... Updated notifications stuff
-=======
->>>>>>> parent of 7fcd972... Updated notifications stuff
         }
       }
     }
