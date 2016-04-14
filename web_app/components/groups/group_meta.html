@@ -1,9 +1,0 @@
-<div class="row">
-  <div class="col-md-2 well">
-    <button class="btn btn-primary btn-block" type="button" ng-click="event_clicked_createGroup()">Create Group</button>
-    <button class="btn btn-info btn-block" ng-repeat="group in Groups" ng-click="event_clicked_groupName(group._id)">{{group.name}}</button>
-  </div>
-  <div class="col-md-10">
-    <div ui-view></div>
-  </div>
-</div>
