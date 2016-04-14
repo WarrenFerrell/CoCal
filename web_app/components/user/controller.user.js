@@ -8,10 +8,11 @@ calendar.controller( "Controller_User",
 
         $scope.login = function () {
             $scope.dataLoading = true;
+            var userData = {name: $scope.name, password: $scope.password,idUser: $scope.id_user,idCal: $scope.id_calendar,email: $scope.email,admin: $scope,isAdmin}
             AuthenticationService.Login($scope.name, $scope.password, function(response) {
                 if(response.success) {
                 	console.log("Successful Login!! with" + $scope.name);
-                    AuthenticationService.SetCredentials($scope.username, $scope.password);
+                    AuthenticationService.SetCredentials(userData);
                     $location.path('/');
                 } else {
                     $scope.error = response.message;

@@ -1,12 +1,12 @@
-calendar.factory('Session', function () {
-  // these should be available to every controller
-  return {
-    id_user: "56ef8e229df30dea5a776488",
-    id_calendar: "56ef8e259df30dea5a776489",
-    name: "Justin",
-    email: "blah@example.com",
-  }
-});
+// calendar.factory('Session', function () {
+//   // these should be available to every controller
+//   return {
+//     id_user: "56ef8e229df30dea5a776488",
+//     id_calendar: "56ef8e259df30dea5a776489",
+//     name: "Justin",
+//     email: "blah@example.com",
+//   }
+// });
 calendar.factory('AuthenticationService',
     ['Base64', '$http', '$cookieStore', '$rootScope', '$timeout',
     function (Base64, $http, $cookieStore, $rootScope, $timeout, Session) {
@@ -21,12 +21,16 @@ calendar.factory('AuthenticationService',
  
         };
   
-        service.SetCredentials = function (name, password) {
-            var authdata = Base64.encode(name + ':' + password);
+        service.SetCredentials = function (user) {
+            var authdata = Base64.encode(user.name + ':' + user.password);
   
             $rootScope.globals = {
                 currentUser: {
-                    name: name,
+                    id_user: user.idUser,
+                    id_calendar: user.idCal,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
                     authdata: authdata
                 }
             };
