@@ -1,16 +1,13 @@
 'use strict';
-calendar.controller( "Controller_Notifications", ['$scope', '$http', '$stateParams', 'Session', function( $scope, $http, $stateParams, Session ) {
-  $scope.user = "Test";
-  $scope.notifications = "THESE ARE NOTIFICATIONS";
-  $scope.cleared = "THESE USED TO BE NOTIFICATIONS";
-
-  $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
+calendar.controller( "Controller_Notifications", function( $scope, $state, $http, $stateParams, $view, Session ) {
+	console.log("user NOtifications " + Session.id_user);
+  $http.get( 'http://localhost:3111/api/v1/notifications/' + Session.id_user )
     .success( function(response) {
       console.log( response );
       $scope.Groups = response;
     })
     .error( function() {
-      console.log( "error getting groups" );
+      console.log( "error getting notifications" );
     })
   ;
 
@@ -31,5 +28,5 @@ calendar.controller( "Controller_Notifications", ['$scope', '$http', '$statePara
       });
   };
 
-}]);
+});
 

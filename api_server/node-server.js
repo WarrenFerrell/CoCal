@@ -14,7 +14,6 @@ var bodyParser = require('body-parser'); // parses all express body requests and
 var mongoose = require('mongoose'); // facilitates connection to the MongoDB backend
 var credentials = require('./credentials'); // local file with the MongoDB credentials. separate file so that they're not accidently commited
 var models = require('./db_schema'); // representations of the DB for mongoose to communicate with mongo
-
 // do the actual connecting to the mongo database. currently it's stored on mongolabs
 // and you need the credentials that are shared only internally. modify the ./credentials.js
 // file with them so that mongoose can connect to mongo
@@ -24,7 +23,6 @@ var options = {
 }
 mongoose.connect( "mongodb://ds023388.mlab.com:23388/cocal", options);
 var db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log( "Connected to mongo" );
@@ -103,8 +101,8 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
 
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-  var userID = req.params['userID'];
-
+  var userID = req.params['userID'];  
+  console.log( "user id in groups " + userID);
   models.User
     .findOne( { _id : userID } )
     .populate({
@@ -123,12 +121,38 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
       {
         if(user && user.groups) {
           res.json( user.groups );
+		  console.log("woo");
         }
         else {
           var errorString = "No user or user groups";
           console.log( errorString );
           res.status(500).send( errorString );
           return;
+        }
+      }
+    }
+  );
+});
+
+server.get( '/api/v1/notifications/:userID', function(req, res) {
+  var userID = req.params['userID'];
+  models.User
+    .findOne( { _id : userID } )
+    .exec( function( error, user ) {
+      if( error ) {
+        console.log( "error finding user with id=" + userID + ", " + error );
+        res.send( 500 );
+      }
+      else
+      {
+        if(user && user.notifications) {
+          console.log( "notifications result: " );
+          console.log( user.notifications );
+          res.json( user.notifications );
+        }
+        else {
+			console.log( "no use for notifications" );
+          res.send( 500 );
         }
       }
     }
