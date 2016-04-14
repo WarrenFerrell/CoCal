@@ -37,6 +37,7 @@ var server = express();
 server.use( cors() );
 server.use( bodyParser.json() );
 
+
 server.get( '/api/v1/group/:id', function(req, res) {
   // this endpoint will return the information for a specific group,
   // including a list of all the members and their information
@@ -108,7 +109,8 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
     .findOne( { _id : userID } )
     .populate({
       path: 'groups', // expand out all of the groups
-      select: 'name _id' // but we only need the id and name
+      path: 'notifications',
+      select: 'name _id email isadmin' // but we only need the id and name
     })
     .exec( function( error, user ) {
       if( error ) {
