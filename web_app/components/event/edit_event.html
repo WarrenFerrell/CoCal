@@ -1,0 +1,97 @@
+
+<div class="panel-heading">
+  <h3>Event Information</h3>
+</div>
+<uib-alert ng-model="alert" ng-show="alert != null" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+<div class="panel-body">
+  <div class="row">
+    <div class="col-md-2">Title</div>
+    <div class="col-md-10"><input type="text" ng-model="input_title"></input></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">Cost</div>
+    <div class="col-md-10"><input type="number" ng-model="input_cost"></input></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">Location</div>
+    <div class="col-md-10"><input type="text" ng-model="input_location"></input></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">Description</div>
+    <div class="col-md-10"><input type="text" ng-model="input_description"></input></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">Category</div>
+    <div class="col-md-10">
+      <select class="form-control" ng-model="input_category">
+        <option ng-repeat="category in Categories">{{category}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">Privacy</div>
+    <div class="col-md-10">
+      <select class="form-control" ng-model="input_privacy">
+        <option value="Public">Public</option>
+        <option value="Private">Private</option>
+        <option ng-repeat="group in Groups" value="{{group._id}}">{{group.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="border:3px solid rgba(86,61,124,.2)">
+    <div class="col-md-12">
+      <div class="row text-center"><h1>Date Information</h1></div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12 text-center"><h2>Beginning</h2></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <uib-datepicker
+                ng-model="input_date_start"
+                datepicker-options="date_options"
+              />
+            </div>
+            <div class="col-md-6">
+              <uib-timepicker
+                ng-model="input_time_start"
+                hour-step="hstep"
+                minute-step="mstep"
+                show-meridian="hours_24"
+                />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12 text-center"><h2>End</h2></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <uib-datepicker
+                ng-model="input_date_end"
+                datepicker-options="date_options"
+              />
+            </div>
+            <div class="col-md-6">
+              <uib-timepicker
+                ng-model="input_time_end"
+                hour-step="hstep"
+                minute-step="mstep"
+                show-meridian="hours_24"
+                />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <button class="btn btn-success btn-large btn-block" ng-click="onClick_save()">
+      Save Event
+    </button>
+  </div>
+</div>

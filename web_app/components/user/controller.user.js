@@ -11,13 +11,12 @@ calendar.controller( "Controller_User",
             var userData = {name: $scope.name, password: $scope.password,idUser: $scope.id_user,idCal: $scope.id_calendar,email: $scope.email,admin: $scope,isAdmin}
             AuthenticationService.Login($scope.name, $scope.password, function(response) {
                 if(response.success) {
-                	console.log("Successful Login!! with: " + $scope.name);
-                    // AuthenticationService.SetCredentials(userData);
-                    // $location.path('/');
+                	console.log("Successful Login!! with" + $scope.name);
+                    AuthenticationService.SetCredentials(userData);
+                    $location.path('/');
                 } else {
-                  console.log("unsuccessful login with:" + $scope.name);
-                    // $scope.error = response.message;
-                    // $scope.dataLoading = false;
+                    $scope.error = response.message;
+                    $scope.dataLoading = false;
                 }
             });
         };
