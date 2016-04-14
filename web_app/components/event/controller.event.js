@@ -1,6 +1,6 @@
 'use strict';
 
-calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', function( $scope, $http, $stateParams ) {
+calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', 'Session', function( $scope, $http, $stateParams, Session ) {
   $scope.id = $stateParams.id_event;
   $scope.Categories = ['Art', 'Entertainment', 'Dog Shows', 'Athletic Competitions'];
   $scope.input_category = $scope.Categories[0];
@@ -22,7 +22,7 @@ calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', fun
     ;
   }
 
-  $http.get( 'http://localhost:3111/api/v1/groups/56ef8bda7c2acb755acfdd1a' )
+  $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
     .success( function(response) {
       console.log( response );
       $scope.Groups = response;
@@ -53,7 +53,8 @@ calendar.controller( "Controller_Event", ['$scope', '$http', '$stateParams', fun
       })
       .error( function() {
         console.log( "couldn't create new event" );
-      });
+      })
+    ;
   };
 
   $scope.date_options = {

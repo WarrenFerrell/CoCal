@@ -1,12 +1,13 @@
 var mongoose = require('mongoose');
 
 var schema_Event = new mongoose.Schema({
-  title:       { type: String, default: "Event Title" },
+  title:       { type: String, default: "Default Title" },
   cost:        { type: Number, default: 0 },
-  location:    { type: String, default: "" },
-  description: { type: String, default: "Event Description" },
-  date:        { type: Date,   default: Date.now() },
-  category:    { type: String, default: "Event Category" },
+  location:    { type: String, default: "Default Location" },
+  description: { type: String, default: "Default Description" },
+  startsAt:    { type: Date },
+  endsAt:      { type: Date },
+  category:    { type: String, default: "Default Category" },
 });
 
 var schema_User = new mongoose.Schema({
