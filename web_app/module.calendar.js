@@ -22,6 +22,12 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_Event_New'
     })
 
+    .state('event', {
+      url: '/event/{id_event}',
+      templateUrl: 'components/event/view_event.html',
+      controller: 'Controller_Event_View'
+    })
+
     .state('group', {
       url: '/group',
       templateUrl: 'components/groups/group_meta.html',
@@ -46,11 +52,11 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_User'
     })
 	
-	.state('notifications', {
-		url:'/notifications',
-		templateUrl: 'components/notifications/notifications.html',
-		controller: 'Controller_Notifications'
-	})
+    .state('notifications', {
+      url:'/notifications',
+      templateUrl: 'components/notifications/notifications.html',
+      controller: 'Controller_Notifications'
+    })
 });
 
 calendar.config( function(calendarConfig) {
