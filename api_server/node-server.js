@@ -45,6 +45,13 @@ server.get( '/api/v1/group/:id', function(req, res) {
       path: 'members', // expand the list of members
       select: 'name _id' // but only include their name's and id's
     })
+    .populate({
+      path: 'calendar',
+      populate: {
+        path: 'events',
+        model: 'Event'
+      }
+    })
     .exec( function( error, result ) {
       if( error ) {
         var errorString = "Error while finding group: " + error;
@@ -73,7 +80,7 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
   models.Calendar
     .findOne( { _id : calendarID } )
     .populate({
-      path: 'events', // expand out all of the groups
+      path: 'events', // expand out all of the events in the group
     })
     .exec( function( error, calendar ) {
       if( error ) {
@@ -106,7 +113,6 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
     .findOne( { _id : userID } )
     .populate({
       path: 'groups', // expand out all of the groups
-      select: 'name _id' // but we only need the id and name
     })
     .exec( function( error, user ) {
       if( error ) {
@@ -204,7 +210,25 @@ server.post( '/api/v1/groups', function(req, res) {
       console.log( errorString );
       res.status(500).send( errorString );
       return;
-    }
+    };
+
+    theirCalendar = new models.Calendar();
+    theirCalendar.name = newGroup.name +" Group Calendar";
+    theirCalendar.owner = id_user;
+
+    theirCalendar.save( function( error2 ) {
+      if( error2 ) {
+        var errorString = "Error saving new user's calendar: " + error2;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      };
+      newGroup.calendar = theirCalendar._id;
+      newGroup.save( function( error3 ) {
+        // should check for error here
+        res.json( { new_id: newGroup._id, calendar: newGroup.calendar } );
+      });
+    });
 
     models.User
       .findByIdAndUpdate( id_user, { $push: { groups: newGroup._id } } )
@@ -215,7 +239,6 @@ server.post( '/api/v1/groups', function(req, res) {
             res.status(500).send( errorString );
             return;
           }
-          res.json( { new_id: newGroup._id } );
         }
       ) // end exec
     ;
@@ -276,7 +299,8 @@ server.post( '/api/v1/events', function(req, res) {
     }
     else {
       // post to personal and specific group
-      models.Group
+      console.log( "Trying to post new event to group calendar: " + id_group );
+      models.Calendar
         .findByIdAndUpdate( id_group, { $push: { events: newEvent._id } } )
         .exec( function( error, result ) {
             if( error ) {
