@@ -73,6 +73,32 @@ server.get( '/api/v1/group/:id', function(req, res) {
     });
 });
 
+server.get( '/api/v1/event/:eventID', function(req, res) {
+  // this endpoint returns the information about a specfic event
+  var eventID = req.params['eventID'];
+
+  models.Event
+    .findById( eventID, function( error, event ) {
+      if( error ) {
+        var errorString = "error finding event with id=" + eventID + ", " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      }
+      else {
+        if( event ) {
+          res.json( event );
+        }
+        else {
+          var errorString = "No event with that id";
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    });
+});
+
 server.get( '/api/v1/calendar/:calendarID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
   var calendarID = req.params['calendarID'];
@@ -107,8 +133,7 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
 
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-  var userID = req.params['userID'];  
-  console.log( "user id in groups " + userID);
+  var userID = req.params['userID'];
   models.User
     .findOne( { _id : userID } )
     .populate({
@@ -125,7 +150,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
       {
         if(user && user.groups) {
           res.json( user.groups );
-		  console.log("woo");
+          return;
         }
         else {
           var errorString = "No user or user groups";
