@@ -316,10 +316,10 @@ server.post( '/api/v1/events', function(req, res) {
         }
       ) // end exec
     ;
-    if( req.body.privacy === "Public" ) {
+    if( id_group === "Public" ) {
       // post to personal calendar, and maybe some public one???
     }
-    else if( req.body.privacy === "Private" ) {
+    else if( id_group === "Private" ) {
       // only post to personal calendar
     }
     else {
