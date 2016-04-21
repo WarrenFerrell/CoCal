@@ -27,7 +27,7 @@ calendar.controller( "Controller_Group", function( $scope, $state, $http, $state
     $http.post('http://localhost:3111/api/v1/group_remove', details)
       .success( function( response ) {
         console.log( "User successfully removed from group;");
-        $state.reload($state.current.name);
+        $state.go("^", {}, {reload: true});
       })
       .error( function() {
         console.log( "Couldn't remove user from group" );

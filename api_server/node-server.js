@@ -276,25 +276,25 @@ server.post('/api/v1/group_remove', function (req, res) {
 
   models.Group
     .findByIdAndUpdate(group_id, { $pull: { members: user_id } } )
-    .exec( function( error, result ) {
-        if( error ) {
-          var errorString = "Error removing user from group: " + error
-          console.log( errorString );
-          res.status(500).send( errorString );
+    .exec( function( error1, result1 ) {
+        if( error1 ) {
+          var errorString1 = "Error removing user from group: " + error1
+          console.log( errorString1 );
+          res.status(500).send( errorString1 );
           return;
         }
-      }
-    ) // end exec
-
-  models.User
-    .findByIdAndUpdate(user_id, { $pull: { groups: group_id } } )
-    .exec( function( error, result ) {
-        if( error ) {
-          var errorString = "Error removing group from user: " + error
-          console.log( errorString );
-          res.status(500).send( errorString );
-          return;
-        }
+        models.User
+          .findByIdAndUpdate(user_id, { $pull: { groups: group_id } } )
+          .exec( function( error2, result2 ) {
+              if( error2 ) {
+                var errorString2 = "Error removing group from user: " + error2
+                console.log( errorString2 );
+                res.status(500).send( errorString2 );
+                return;
+              }
+              res.send();
+            }
+          ) // end exec
       }
     ) // end exec
 });
