@@ -258,7 +258,7 @@ server.post( '/api/v1/groups', function(req, res) {
     models.User
       .findByIdAndUpdate( id_user, { $push: { groups: newGroup._id } } )
       .exec( function( error2, result ) {
-          if( error ) {
+          if( error2 ) {
             var errorString = "Error adding group to user: " + error2
             console.log( errorString );
             res.status(500).send( errorString );
@@ -268,6 +268,35 @@ server.post( '/api/v1/groups', function(req, res) {
       ) // end exec
     ;
   });
+});
+
+server.post('/api/v1/group_remove', function (req, res) {
+  var user_id = req.body.user_id;
+  var group_id = req.body.group_id;
+
+  models.Group
+    .findByIdAndUpdate(group_id, { $pull: { members: user_id } } )
+    .exec( function( error, result ) {
+        if( error ) {
+          var errorString = "Error removing user from group: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    ) // end exec
+
+  models.User
+    .findByIdAndUpdate(user_id, { $pull: { groups: group_id } } )
+    .exec( function( error, result ) {
+        if( error ) {
+          var errorString = "Error removing group from user: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    ) // end exec
 });
 
 server.post( '/api/v1/events', function(req, res) {
