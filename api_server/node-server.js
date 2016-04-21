@@ -188,9 +188,16 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
 
 server.post( '/api/v1/notifications/:userID', function(req, res) {
 	var userID = req.params['userID'];
-	console.log("user is " + userID);
 	models.User
 		.findOneAndUpdate({ _id : userID}, {notifications : []},function(err,user) {
+			if(err) { console.log("shit"); }
+			else {res.json({ notifications: user.notifications});}
+		});
+});
+server.post( '/api/v1/notifications/:userID/2', function(req, res) {
+	var userID = req.params['userID'];
+	models.User
+		.findOneAndUpdate({ _id : userID}, {notifications : ["I added this"]},function(err,user) {
 			if(err) { console.log("shit"); }
 			else {res.json({ notifications: user.notifications});}
 		});
