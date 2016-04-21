@@ -1,6 +1,5 @@
 var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap','ngCookies',  'google.places' ]);
 
-
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/user' );
 

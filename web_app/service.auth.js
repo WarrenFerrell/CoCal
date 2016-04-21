@@ -27,9 +27,10 @@ calendar.factory('Session',
                     name: user.name,
                     email: user.email,
                     isAdmin: user.isAdmin,
-                    authdata: authdata
+                    authdata: authdata,
                 }
             };
+            $rootScope.active = true;
             $cookieStore.put('globals', $rootScope.globals);
             var currUser = $cookieStore.get('globals');
             // console.log("currUser: " +currUser.currentUser.name);
