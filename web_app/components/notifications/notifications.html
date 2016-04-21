@@ -1,13 +1,9 @@
-<div class="panel-heading">
-  <h3>Notifications</h3>
+<h1>Notifications</h1>
+<button class="btn btn-primary btn-block"
+        ng-click="event_clicked_clearNotifications()"
+        ng-disabled="clearDisabled">
+  Clear Notifications
+</button>
+<div ng-repeat="notification in notifications">
+  <h4>{{notification}}</h4>
 </div>
-<div ng-repeat= "string in notifications" class="row">
-    <font size="4">{{string}}</font>
-</div>
-<p></p>
-<div class="row">
-	<div class="col-md-2 well">
-		<button class="btn btn-primary btn-block" type="button" ng-click="event_clicked_clearNotifications()">Clear Notifications</button>
-	</div>
-</div>
-

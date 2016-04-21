@@ -31,7 +31,7 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
       id_event: id_event
     };
 
-    $http.delete( 'http://localhost:3111/api/v1/event_remove', details )
+    $http.post( 'http://localhost:3111/api/v1/event_remove', details )
       .success( function(response) {
         console.log( "event deleted" );
         $state.go("calendar");

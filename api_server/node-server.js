@@ -460,7 +460,7 @@ server.post( '/api/v1/events', function(req, res) {
   }); // end newEvent.save()
 });
 
-server.delete( "/api/v1/event_remove", function(req, res) {
+server.post( "/api/v1/event_remove", function(req, res) {
   var id_user_calendar = req.body.id_user_calendar;
   var id_event = req.body.id_event;
 

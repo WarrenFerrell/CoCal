@@ -33,7 +33,6 @@ calendar.factory('Session',
             $rootScope.active = true;
             $cookieStore.put('globals', $rootScope.globals);
             var currUser = $cookieStore.get('globals');
-            // console.log("currUser: " +currUser.currentUser.name);
         };
   
         service.ClearCredentials = function () {
