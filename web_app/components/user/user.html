@@ -1,15 +1,22 @@
-<div class="row">
-  <div class="col-md-4">User Name</div>
-  <div class="col-md-8"><input type="text" ng-model="name"></input></div>
-</div>
-<div class="row">
-  <div class="col-md-4">Email</div>
-  <div class="col-md-8"><input type="text" ng-model="email"></input></div>
-</div>
-<div class="row">
-  <div class="col-md-4">Password</div>
-  <div class="col-md-8"><input type="password" ng-model="password"></input></div>
-</div>
+<form name="form" ng-submit="login()" role="form">
+    <div class="form-group">
+        <label for="username">Name</label>
+        <i class="fa fa-key"></i>
+        <input type="text" name="name" id="name" class="form-control" ng-model="name" required />
+        <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <i class="fa fa-lock"></i>
+        <input type="password" name="password" id="password" class="form-control" ng-model="password" required />
+        <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+    </div>
+    <div class="form-actions">
+        <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Login</button>
+        <button ui-sref="register" class="btn btn-primary">Create New User</button>
+        <img ng-if="dataLoading" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif"/>
+    </div>
+</form>
 <!-- <div class="row">
   <div class="col-md-4">Admin?</div>
   <div class="col-md-8"><input type="checkbox" ng-model="isadmin"></div>

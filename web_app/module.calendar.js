@@ -1,7 +1,7 @@
-var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap',  'google.places' ]);
+var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap','ngCookies',  'google.places' ]);
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
-  $urlRouterProvider.otherwise( '/home' );
+  $urlRouterProvider.otherwise( '/user' );
 
   $stateProvider
     .state('home', {
@@ -51,17 +51,35 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       templateUrl: 'components/user/user.html',
       controller: 'Controller_User'
     })
-    .state('notifications', {
-      url:'/notifications',
-      templateUrl: 'components/notifications/notifications.html',
-      controller: 'Controller_Notifications'
+	  .state('register',{
+      url: '/register',
+      templateUrl: 'components/user/register.html',
+      controller: 'Controller_User'
     })
-
-    .state('find_events', {
+	.state('notifications', {
+		url:'/notifications',
+		templateUrl: 'components/notifications/notifications.html',
+		controller: 'Controller_Notifications'
+	})
+  .state('find_events', {
         url:'/find_events',
         templateUrl: 'components/find_events/list_events.html',
         controller: 'Controller_Find_Events'
     })
+  function run($rootScope,$http,$location,$localStorage){
+    //keep user data stored even if browser is refreshed
+    if($localStorage.currentUser){
+      $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+    }
+     // redirect to login page if not logged in and trying to access a restricted page
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            var publicPages = ['/user'];
+            var restrictedPage = publicPages.indexOf($location.path()) === -1;
+            if (restrictedPage && !$localStorage.currentUser) {
+                $location.path('/user');
+            }
+        });
+  }
 });
 
 calendar.config( function(calendarConfig) {
