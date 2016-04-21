@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 calendar.controller( "Controller_Home", function( $scope, $state ) {
