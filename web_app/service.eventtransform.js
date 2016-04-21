@@ -9,6 +9,7 @@ calendar.factory('EventTransform', function () {
       type : "info",
       draggable: false,
       resizable: false,
+      _id: jsonData._id,
     };
   };
 
