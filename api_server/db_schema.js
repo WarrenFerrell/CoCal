@@ -8,6 +8,8 @@ var schema_Event = new mongoose.Schema({
   startsAt:    { type: Date },
   endsAt:      { type: Date },
   category:    { type: String, default: "Default Category" },
+  owner: { type: mongoose.Schema.Types.ObjectId,
+           ref: 'User' },
 });
 
 var schema_User = new mongoose.Schema({

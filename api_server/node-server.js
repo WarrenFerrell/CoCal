@@ -328,6 +328,7 @@ server.post( '/api/v1/events', function(req, res) {
   newEvent.startsAt = req.body.startsAt;
   newEvent.endsAt = req.body.endsAt;
   newEvent.category = req.body.category;
+  newEvent.owner = req.body.id_user;
 
   // now we commit it to the database
   // afater saving it, we will add it to the user's personal calendar,
@@ -378,6 +379,40 @@ server.post( '/api/v1/events', function(req, res) {
 
     res.json( { new_event_id: newEvent._id } );
   });
+});
+
+server.delete( "/api/v1/event_remove", function(req, res) {
+  var id_user_calendar = req.body.id_user_calendar;
+  var id_event = req.body.id_event;
+
+  models.Event
+    .findByIdAndRemove( id_event )
+    .exec( function( error, result ) {
+      if( error ) {
+        var errorString = "Error deleting event: " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      }
+      // should have been successful here
+      console.log( "an event was deleted" );
+      res.send();
+    })
+  ;
+
+  models.Calendar
+    .findByIdAndUpdate( id_user_calendar, { $pull: { events: id_event } } )
+    .exec( function( error, result ) {
+      if( error ) {
+        var errorString = "Error removing deleted event from user calendar: " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      }
+      // should have been successful here
+      console.log( "An event was removed from user calendar" );
+    })
+  ;
 });
 
 // now that the endpoints have been created, start the server
