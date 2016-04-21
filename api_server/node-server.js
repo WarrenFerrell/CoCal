@@ -194,10 +194,12 @@ server.post( '/api/v1/notifications/:userID', function(req, res) {
 			else {res.json({ notifications: user.notifications});}
 		});
 });
-server.post( '/api/v1/notifications/:userID/2', function(req, res) {
+server.post( '/api/v1/notifications/:userID/:eventID', function(req, res) {
 	var userID = req.params['userID'];
+	var x = req.params['eventID'];
+	var message = "Event with id " + x + " deleted.";
 	models.User
-		.findOneAndUpdate({ _id : userID}, {notifications : ["I added this"]},function(err,user) {
+		.findOneAndUpdate({ _id : userID}, {$push: {notifications : message}},function(err,user) {
 			if(err) { console.log("shit"); }
 			else {res.json({ notifications: user.notifications});}
 		});
