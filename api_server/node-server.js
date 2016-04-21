@@ -175,8 +175,6 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
       else
       {
         if(user && user.notifications) {
-          console.log( "notifications result: " );
-          console.log( user.notifications );
           res.json( user.notifications );
         }
         else {
@@ -188,12 +186,22 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
   );
 });
 
+server.post( '/api/v1/notifications/:userID', function(req, res) {
+	var userID = req.params['userID'];
+	console.log("user is " + userID);
+	models.User
+		.findOneAndUpdate({ _id : userID}, {notifications : []},function(err,user) {
+			if(err) { console.log("shit"); }
+			else {res.json({ notifications: user.notifications});}
+		});
+});
+
 server.post( '/api/v1/users', function(req, res) {
   newUser = new models.User();
   newUser.name = req.body.name;
   newUser.email = req.body.email;
   newUser.password = req.body.password;
-
+  newUser.notifications = [];
   newUser.save( function( error ) {
     if( error ) {
       var errorString = "Error saving new user: " + error;
@@ -305,8 +313,9 @@ server.post( '/api/v1/events', function(req, res) {
   // the creating user's personal calendar, as well as any selected
   // calendars, such as a group
   // we get the userID and other details from the post body
-  console.log("event to be added to db:");
-  console.log(req.body);
+  //console.log("event to be added to db:");
+  //console.log(req.body);
+  
   var id_user = req.body.id_user;
   var id_calendar = req.body.id_calendar;
   var id_group = req.body.id_group;
@@ -315,7 +324,7 @@ server.post( '/api/v1/events', function(req, res) {
   newEvent = new models.Event();
   newEvent.title = req.body.title;
   newEvent.cost = req.body.cost;
-  newEvent.location = req.body.location;
+  newEvent.location = { cord: req.body.location.geometry.location, loc_id: req.body.location.id };
   newEvent.description = req.body.description;
   newEvent.startsAt = req.body.startsAt;
   newEvent.endsAt = req.body.endsAt;

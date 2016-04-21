@@ -1,4 +1,4 @@
-var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap' ]);
+var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap',  'google.places' ]);
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/home' );
@@ -52,10 +52,16 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_User'
     })
 	
-    .state('notifications', {
-      url:'/notifications',
-      templateUrl: 'components/notifications/notifications.html',
-      controller: 'Controller_Notifications'
+	.state('notifications', {
+		url:'/notifications',
+		templateUrl: 'components/notifications/notifications.html',
+		controller: 'Controller_Notifications'
+	})
+
+    .state('find_events', {
+        url:'/find_events',
+        templateUrl: 'components/find_events/list_events.html',
+        controller: 'Controller_Find_Events'
     })
 });
 
