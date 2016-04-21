@@ -46,6 +46,13 @@ server.get( '/api/v1/group/:id', function(req, res) {
       path: 'members', // expand the list of members
       select: 'name _id' // but only include their name's and id's
     })
+    .populate({
+      path: 'calendar',
+      populate: {
+        path: 'events',
+        model: 'Event'
+      }
+    })
     .exec( function( error, result ) {
       if( error ) {
         var errorString = "Error while finding group: " + error;
@@ -67,6 +74,32 @@ server.get( '/api/v1/group/:id', function(req, res) {
     });
 });
 
+server.get( '/api/v1/event/:eventID', function(req, res) {
+  // this endpoint returns the information about a specfic event
+  var eventID = req.params['eventID'];
+
+  models.Event
+    .findById( eventID, function( error, event ) {
+      if( error ) {
+        var errorString = "error finding event with id=" + eventID + ", " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      }
+      else {
+        if( event ) {
+          res.json( event );
+        }
+        else {
+          var errorString = "No event with that id";
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    });
+});
+
 server.get( '/api/v1/calendar/:calendarID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
   var calendarID = req.params['calendarID'];
@@ -74,7 +107,7 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
   models.Calendar
     .findOne( { _id : calendarID } )
     .populate({
-      path: 'events', // expand out all of the groups
+      path: 'events', // expand out all of the events in the group
     })
     .exec( function( error, calendar ) {
       if( error ) {
@@ -126,8 +159,7 @@ server.get( '/api/v1/users/:name', function(req, res) {
  });
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-  var userID = req.params['userID'];  
-  console.log( "user id in groups " + userID);
+  var userID = req.params['userID'];
   models.User
     .findOne( { _id : userID } )
     .populate({
@@ -146,7 +178,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
       {
         if(user && user.groups) {
           res.json( user.groups );
-		  console.log("woo");
+          return;
         }
         else {
           var errorString = "No user or user groups";
@@ -171,8 +203,6 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
       else
       {
         if(user && user.notifications) {
-          console.log( "notifications result: " );
-          console.log( user.notifications );
           res.json( user.notifications );
         }
         else {
@@ -184,12 +214,22 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
   );
 });
 
+server.post( '/api/v1/notifications/:userID', function(req, res) {
+	var userID = req.params['userID'];
+	console.log("user is " + userID);
+	models.User
+		.findOneAndUpdate({ _id : userID}, {notifications : []},function(err,user) {
+			if(err) { console.log("shit"); }
+			else {res.json({ notifications: user.notifications});}
+		});
+});
+
 server.post( '/api/v1/users', function(req, res) {
   newUser = new models.User();
   newUser.name = req.body.name;
   newUser.email = req.body.email;
   newUser.password = req.body.password;
-
+  newUser.notifications = [];
   newUser.save( function( error ) {
     if( error ) {
       var errorString = "Error saving new user: " + error;
@@ -231,22 +271,68 @@ server.post( '/api/v1/groups', function(req, res) {
       console.log( errorString );
       res.status(500).send( errorString );
       return;
-    }
+    };
+
+    theirCalendar = new models.Calendar();
+    theirCalendar.name = newGroup.name +" Group Calendar";
+    theirCalendar.owner = id_user;
+
+    theirCalendar.save( function( error2 ) {
+      if( error2 ) {
+        var errorString = "Error saving new user's calendar: " + error2;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      };
+      newGroup.calendar = theirCalendar._id;
+      newGroup.save( function( error3 ) {
+        // should check for error here
+        res.json( { new_id: newGroup._id, calendar: newGroup.calendar } );
+      });
+    });
 
     models.User
       .findByIdAndUpdate( id_user, { $push: { groups: newGroup._id } } )
       .exec( function( error2, result ) {
-          if( error ) {
+          if( error2 ) {
             var errorString = "Error adding group to user: " + error2
             console.log( errorString );
             res.status(500).send( errorString );
             return;
           }
-          res.json( { new_id: newGroup._id } );
         }
       ) // end exec
     ;
   });
+});
+
+server.post('/api/v1/group_remove', function (req, res) {
+  var user_id = req.body.user_id;
+  var group_id = req.body.group_id;
+
+  models.Group
+    .findByIdAndUpdate(group_id, { $pull: { members: user_id } } )
+    .exec( function( error, result ) {
+        if( error ) {
+          var errorString = "Error removing user from group: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    ) // end exec
+
+  models.User
+    .findByIdAndUpdate(user_id, { $pull: { groups: group_id } } )
+    .exec( function( error, result ) {
+        if( error ) {
+          var errorString = "Error removing group from user: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    ) // end exec
 });
 
 server.post( '/api/v1/events', function(req, res) {
@@ -255,8 +341,9 @@ server.post( '/api/v1/events', function(req, res) {
   // the creating user's personal calendar, as well as any selected
   // calendars, such as a group
   // we get the userID and other details from the post body
-  console.log("event to be added to db:");
-  console.log(req.body);
+  //console.log("event to be added to db:");
+  //console.log(req.body);
+  
   var id_user = req.body.id_user;
   var id_calendar = req.body.id_calendar;
   var id_group = req.body.id_group;
@@ -265,7 +352,7 @@ server.post( '/api/v1/events', function(req, res) {
   newEvent = new models.Event();
   newEvent.title = req.body.title;
   newEvent.cost = req.body.cost;
-  newEvent.location = req.body.location;
+  newEvent.location = { cord: req.body.location.geometry.location, loc_id: req.body.location.id };
   newEvent.description = req.body.description;
   newEvent.startsAt = req.body.startsAt;
   newEvent.endsAt = req.body.endsAt;
@@ -295,15 +382,16 @@ server.post( '/api/v1/events', function(req, res) {
         }
       ) // end exec
     ;
-    if( req.body.privacy === "Public" ) {
+    if( id_group === "Public" ) {
       // post to personal calendar, and maybe some public one???
     }
-    else if( req.body.privacy === "Private" ) {
+    else if( id_group === "Private" ) {
       // only post to personal calendar
     }
     else {
       // post to personal and specific group
-      models.Group
+      console.log( "Trying to post new event to group calendar: " + id_group );
+      models.Calendar
         .findByIdAndUpdate( id_group, { $push: { events: newEvent._id } } )
         .exec( function( error, result ) {
             if( error ) {

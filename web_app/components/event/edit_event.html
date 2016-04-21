@@ -6,19 +6,20 @@
 <div class="panel-body">
   <div class="row">
     <div class="col-md-2">Title</div>
-    <div class="col-md-10"><input type="text" ng-model="input_title"></input></div>
+    <div class="col-md-10"><input type="text" ng-model="input_title"/></div>
   </div>
   <div class="row">
     <div class="col-md-2">Cost</div>
-    <div class="col-md-10"><input type="number" ng-model="input_cost"></input></div>
+    <div class="col-md-10"><input type="number" ng-model="input_cost"/></div>
   </div>
   <div class="row">
     <div class="col-md-2">Location</div>
-    <div class="col-md-10"><input type="text" ng-model="input_location"></input></div>
+      <link rel="stylesheet" href="/bower_components/angular-google-places-autocomplete/src/autocomplete.css">
+    <div class="col-md-10"><input type="choice" g-places-autocomplete ng-model="input_location"/></div>
   </div>
   <div class="row">
     <div class="col-md-2">Description</div>
-    <div class="col-md-10"><input type="text" ng-model="input_description"></input></div>
+    <div class="col-md-10"><input type="text" ng-model="input_description"/></div>
   </div>
   <div class="row">
     <div class="col-md-2">Category</div>
@@ -34,7 +35,7 @@
       <select class="form-control" ng-model="input_privacy">
         <option value="Public">Public</option>
         <option value="Private">Private</option>
-        <option ng-repeat="group in Groups" value="{{group._id}}">{{group.name}}</option>
+        <option ng-repeat="group in Groups" value="{{group.calendar}}">{{group.name}}</option>
       </select>
     </div>
   </div>
@@ -87,6 +88,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <div class="row">

@@ -1,75 +1,39 @@
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">Event Information</h3>
-  </div>
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-md-2">Title</div>
-      <div class="col-md-10"><input type="text" ng-model="input_title"></input></div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Cost</div>
-      <div class="col-md-10"><input type="text" ng-model="input_cost"></input></div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Location</div>
-      <div class="col-md-10"><input type="text" ng-model="input_location"></input></div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Description</div>
-      <div class="col-md-10"><input type="text" ng-model="input_description"></input></div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Category</div>
-      <div class="col-md-10">
-        <select class="form-control">
-          <option>Uncategorized</option>
-          <option>Entertainment</option>
-          <option>Competition</option>
-          <option>Dog Show</option>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Privacy</div>
-      <div class="col-md-10">
-        <select class="form-control">
-          <option>Public</option>
-          <option>Private</option>
-          <option ng-repeat="group in Groups">{{group.name}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Date</div>
-      <div class="col-md-10">
-        <uib-datepicker
-          ng-model="input_date"
-          datepicker-options="date_options"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Starting Time</div>
-      <div class="col-md-10">
-        <uib-timepicker
-          ng-model="input_time_start"
-          hour-step="hstep"
-          minute-step="mstep"
-          show-meridian="hours_24"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">Ending Time</div>
-      <div class="col-md-10">
-        <uib-timepicker
-          ng-model="input_time_end"
-          hour-step="hstep"
-          minute-step="mstep"
-          show-meridian="hours_24"
-        />
-      </div>
-    </div>
+<div class="row">
+  <div><h1 class="text-center"><u>{{event.title}}</u></h1></div>
+</div>
+<div class="row">
+  <div><h2>Cost: {{event.cost}}</h2></div>
+</div>
+<div class="row">
+  <div class="col-md-2"><b>Location</b></div>
+  <div class="col-md-10">
+    {{event.location}}
   </div>
 </div>
+<div class="row">
+  <div class="col-md-2"><b>Description</b></div>
+  <div class="col-md-10">
+    {{event.description}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2"><b>Category</b></div>
+  <div class="col-md-10">
+    {{event.category}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2"><b>Start</b></div>
+  <div class="col-md-10">
+    {{dateBegin}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2"><b>End</b></div>
+  <div class="col-md-10">
+    {{dateEnd}}
+  </div>
+</div>
+
+<button class="btn btn-warning btn-block" type="button" ng-click="event_clicked_edit()">Edit this Event</button>
+<button class="btn btn-danger btn-block" type="button" ng-click="event_clicked_delete()">Delete this Event</button>

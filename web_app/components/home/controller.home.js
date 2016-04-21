@@ -5,3 +5,5 @@ calendar.controller( "Controller_Home", function( $scope, $state ) {
     $state.go( 'home.event', { id_event : $scope.input_id_event } );
   };
 });
+
+

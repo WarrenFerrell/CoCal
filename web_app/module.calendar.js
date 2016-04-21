@@ -1,4 +1,5 @@
-var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap','ngCookies' ]);
+var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap','ngCookies',  'google.places' ]);
+
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/user' );
@@ -20,6 +21,12 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       url: '/create',
       templateUrl: 'components/event/edit_event.html',
       controller: 'Controller_Event_New'
+    })
+
+    .state('event', {
+      url: '/event/{id_event}',
+      templateUrl: 'components/event/view_event.html',
+      controller: 'Controller_Event_View'
     })
 
     .state('group', {
@@ -55,6 +62,11 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
 		templateUrl: 'components/notifications/notifications.html',
 		controller: 'Controller_Notifications'
 	})
+  .state('find_events', {
+        url:'/find_events',
+        templateUrl: 'components/find_events/list_events.html',
+        controller: 'Controller_Find_Events'
+    })
   function run($rootScope,$http,$location,$localStorage){
     //keep user data stored even if browser is refreshed
     if($localStorage.currentUser){

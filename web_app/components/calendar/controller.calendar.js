@@ -1,6 +1,7 @@
 'use strict';
 
-calendar.controller( "Controller_Calendar", [ '$scope', '$http', '$cookieStore', 'EventTransform', function( $scope, $http, $cookieStore, EventTransform ) {
+calendar.controller( "Controller_Calendar", [ '$scope', '$http','$state', '$cookieStore', 'EventTransform', function( $scope, $http, $state, $cookieStore, EventTransform ) {
+
   $scope.calendarView = 'month';
   $scope.calendarDate = moment();
   $scope.isCellOpen = true;
@@ -17,5 +18,10 @@ calendar.controller( "Controller_Calendar", [ '$scope', '$http', '$cookieStore',
       console.log( "error getting events for calendar" );
     })
   ;
+
+  $scope.eventClicked = function( event ) {
+    console.log( "going to event " + event._id );
+    $state.go( "event", { id_event: event._id } );
+  }
 
 }]);
