@@ -1,6 +1,6 @@
 'use strict';
-calendar.controller( "Controller_Notifications", function( $scope, $state, $http, $stateParams, $view, Session ) {
-  $http.get( 'http://localhost:3111/api/v1/notifications/' + Session.id_user )
+calendar.controller( "Controller_Notifications", function( $scope, $state, $http, $stateParams, $view, $cookieStore ) {
+  $http.get( 'http://localhost:3111/api/v1/notifications/' + $cookieStore.get('globals').currentUser.id_user )
     .success( function(response) {
 	  if(response.length == 0) {
 		  $scope.notifications = ["You have no notifications at this time"];
@@ -16,7 +16,7 @@ calendar.controller( "Controller_Notifications", function( $scope, $state, $http
 
   $scope.event_clicked_clearNotifications = function() {
     console.log( "clicked save" );
-    $http.post( 'http://localhost:3111/api/v1/notifications/' + Session.id_user)
+    $http.post( 'http://localhost:3111/api/v1/notifications/' + $cookieStore.get('globals').currentUser.id_user)
       .success( function( response ) {
         console.log( response );
       })

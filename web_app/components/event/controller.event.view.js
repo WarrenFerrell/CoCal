@@ -1,6 +1,6 @@
 'use strict';
 
-calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$stateParams', 'Session', 'EventTransform', function( $scope, $http, $state, $stateParams, Session, EventTransform ) {
+calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$stateParams', '$cookieStore', 'EventTransform', function( $scope, $http, $state, $stateParams, $cookieStore, EventTransform ) {
   const id_event = $stateParams.id_event;
   console.log( "event id = " + id_event );
   $http.get( 'http://localhost:3111/api/v1/event/' + $stateParams.id_event )
@@ -19,7 +19,7 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
   $scope.event_clicked_delete = function() {
     console.log( "trying to delete this event" );
     var details = {
-      id_user_calendar: Session.id_calendar,
+      id_user_calendar: $cookieStore.get('globals').currentUser.id_calendar,
       id_event: id_event
     };
     $http.delete( 'http://localhost:3111/api/v1/event_remove', details )

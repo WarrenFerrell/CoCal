@@ -1,6 +1,6 @@
 'use strict';
 
-calendar.controller( "Controller_Event_New", ['$scope', '$http', '$state', '$stateParams', 'Session', function( $scope, $http, $state, $stateParams, Session ) {
+calendar.controller( "Controller_Event_New", ['$scope', '$http', '$state', '$stateParams', '$cookieStore', function( $scope, $http, $state, $stateParams, $cookieStore ) {
   $scope.Categories = ['Art', 'Entertainment', 'Dog Shows', 'Athletic Competitions'];
   $scope.input_category = $scope.Categories[0];
   $scope.input_privacy = "Public";
@@ -12,7 +12,7 @@ calendar.controller( "Controller_Event_New", ['$scope', '$http', '$state', '$sta
     $scope.alert = null;
   };
 
-  $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
+  $http.get( 'http://localhost:3111/api/v1/groups/' + $cookieStore.get('globals').currentUser.id_user )
     .success( function(response) {
       console.log( response );
       $scope.Groups = response;
@@ -52,8 +52,8 @@ calendar.controller( "Controller_Event_New", ['$scope', '$http', '$state', '$sta
       category: $scope.input_category,
       id_group: $scope.input_privacy,
 
-      id_user: Session.id_user,
-      id_calendar: Session.id_calendar
+      id_user: $cookieStore.get('globals').currentUser.id_user,
+      id_calendar: $cookieStore.get('globals').currentUser.id_calendar
     };
 
     $http.post( 'http://localhost:3111/api/v1/events', details )
