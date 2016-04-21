@@ -1,6 +1,6 @@
 'use strict';
 
-calendar.controller( "Controller_Group", function( $scope, $state, $http, $stateParams, $view, EventTransform, Session ) {
+calendar.controller( "Controller_Group", function( $scope, $state, $http, $stateParams, $view, EventTransform, $cookieStore ) {
   $http.get( 'http://localhost:3111/api/v1/group/' + $stateParams.id_group )
     .success( function(response) {
       $scope.group = response;
@@ -21,7 +21,7 @@ calendar.controller( "Controller_Group", function( $scope, $state, $http, $state
 
   $scope.remove_group = function() {
     var details = {
-      user_id: Session.id_user,
+      user_id: $cookieStore.get('globals').currentUser.id_user,
       group_id: $stateParams.id_group
     };
     $http.post('http://localhost:3111/api/v1/group_remove', details)

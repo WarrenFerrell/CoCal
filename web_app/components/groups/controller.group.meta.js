@@ -1,7 +1,8 @@
 'use strict';
 
-calendar.controller( "Controller_Group_Meta", function( $scope, $state, $http, $stateParams, $view, Session ) {
-  $http.get( 'http://localhost:3111/api/v1/groups/' + Session.id_user )
+calendar.controller( "Controller_Group_Meta", function( $scope, $state, $http, $stateParams, $view, $cookieStore ) {
+  console.log( $cookieStore.get('globals').currentUser.id_user );
+  $http.get( 'http://localhost:3111/api/v1/groups/' + $cookieStore.get('globals').currentUser.id_user )
     .success( function(response) {
       $scope.Groups = response;
     })

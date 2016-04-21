@@ -2,8 +2,8 @@
 
 'use strict';
 
-calendar.controller( "Controller_Find_Events", [ '$scope', '$http', 'Session', 'EventTransform', function( $scope, $http, Session, EventTransform ) {
-    $http.get( 'http://localhost:3111/api/v1/calendar/' + Session.id_calendar )
+calendar.controller( "Controller_Find_Events", [ '$scope', '$http', '$cookieStore', 'EventTransform', function( $scope, $http, $cookieStore, EventTransform ) {
+    $http.get( 'http://localhost:3111/api/v1/calendar/' + $cookieStore.get('globals').currentUser.id_calendar )
     .success( function(response) {
       $scope.group = response;
       console.log( response );

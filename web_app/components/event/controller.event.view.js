@@ -1,7 +1,8 @@
 'use strict';
 
-calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$stateParams', 'Session', 'EventTransform', function( $scope, $http, $state, $stateParams, Session, EventTransform ) {
-  console.log( "event id = " + $stateParams.id_event );
+calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$stateParams', '$cookieStore', 'EventTransform', function( $scope, $http, $state, $stateParams, $cookieStore, EventTransform ) {
+  const id_event = $stateParams.id_event;
+  console.log( "event id = " + id_event );
   $http.get( 'http://localhost:3111/api/v1/event/' + $stateParams.id_event )
     .success( function(response) {
       console.log( "returned event" );
@@ -17,13 +18,27 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
 
   $scope.event_clicked_delete = function() {
     console.log( "trying to delete this event" );
-	$http.post('http://localhost:3111/api/v1/notifications/' + Session.id_user + "/" + $stateParams.id_event + '/1')
-		.success(function(repsonse) {
-			console.log(response);
-		})
-		.error( function() {
-			console.log("dammmmn");
-		});
+  	$http.post('http://localhost:3111/api/v1/notifications/' + Session.id_user + "/" + $stateParams.id_event + '/1')
+  		.success(function(repsonse) {
+  			console.log(response);
+  		})
+  		.error( function() {
+  			console.log("dammmmn");
+  		});
+
+    var details = {
+      id_user_calendar: $cookieStore.get('globals').currentUser.id_calendar,
+      id_event: id_event
+    };
+
+    $http.delete( 'http://localhost:3111/api/v1/event_remove', details )
+      .success( function(response) {
+        console.log( "event deleted" );
+        $state.go("calendar");
+      })
+      .error( function() {
+        console.log( "error deleting the event" );
+      });
   };
 
   $scope.event_clicked_report = function() {
@@ -36,5 +51,9 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
         console.log("dammmmn");
       });
   };
+
+  $scope.event_clicked_edit = function() {
+    console.log( "trying to edit event" );
+  }
 
 }]);

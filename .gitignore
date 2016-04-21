@@ -20,5 +20,8 @@ libpeerconnection.log
 npm-debug.log
 /tmp/
 /scripts/bower/bower-*
+<<<<<<< HEAD
 ./idea
+=======
+>>>>>>> 91ff4552f08e1faca034cd2cebee9ca4a29990e6
 */credentials.js
