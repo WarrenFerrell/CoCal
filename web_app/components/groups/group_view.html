@@ -8,8 +8,53 @@
   </div>
 </div>
 <div>
+  <!-- <a ui-sref="create_event" class="btn btn-primary">Create an Event</a> -->
+  <div class="row">
+    <div class="col-md-6 text-center">
+      <div class="btn-group">
+
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="calendarDate"
+          decrement="calendarView">
+          Previous
+        </button>
+        <button
+          class="btn btn-default"
+          mwl-date-modifier
+          date="calendarDate"
+          set-to-today>
+          Today
+        </button>
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="calendarDate"
+          increment="calendarView">
+          Next
+        </button>
+
+      </div>
+    </div>
+
+    <br class="visible-xs visible-sm">
+
+    <div class="col-md-6 text-center">
+      <div class="btn-group">
+        <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'">Year</label>
+        <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'month'">Month</label>
+        <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'">Week</label>
+        <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'day'">Day</label>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
   <mwl-calendar
     view="calendarView"
+    view-title="calendarTitle"
     view-date="calendarDate"
     events="events">
   </mwl-calendar>

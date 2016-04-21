@@ -45,6 +45,13 @@ server.get( '/api/v1/group/:id', function(req, res) {
       path: 'members', // expand the list of members
       select: 'name _id' // but only include their name's and id's
     })
+    .populate({
+      path: 'calendar',
+      populate: {
+        path: 'events',
+        model: 'Event'
+      }
+    })
     .exec( function( error, result ) {
       if( error ) {
         var errorString = "Error while finding group: " + error;
@@ -66,6 +73,32 @@ server.get( '/api/v1/group/:id', function(req, res) {
     });
 });
 
+server.get( '/api/v1/event/:eventID', function(req, res) {
+  // this endpoint returns the information about a specfic event
+  var eventID = req.params['eventID'];
+
+  models.Event
+    .findById( eventID, function( error, event ) {
+      if( error ) {
+        var errorString = "error finding event with id=" + eventID + ", " + error;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      }
+      else {
+        if( event ) {
+          res.json( event );
+        }
+        else {
+          var errorString = "No event with that id";
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+      }
+    });
+});
+
 server.get( '/api/v1/calendar/:calendarID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
   var calendarID = req.params['calendarID'];
@@ -73,7 +106,7 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
   models.Calendar
     .findOne( { _id : calendarID } )
     .populate({
-      path: 'events', // expand out all of the groups
+      path: 'events', // expand out all of the events in the group
     })
     .exec( function( error, calendar ) {
       if( error ) {
@@ -100,13 +133,11 @@ server.get( '/api/v1/calendar/:calendarID', function(req, res) {
 
 server.get( '/api/v1/groups/:userID', function(req, res) {
   // this endpoint should return a list of all the groups that a user belongs to
-  var userID = req.params['userID'];  
-  console.log( "user id in groups " + userID);
+  var userID = req.params['userID'];
   models.User
     .findOne( { _id : userID } )
     .populate({
       path: 'groups', // expand out all of the groups
-      select: 'name _id' // but we only need the id and name
     })
     .exec( function( error, user ) {
       if( error ) {
@@ -119,7 +150,7 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
       {
         if(user && user.groups) {
           res.json( user.groups );
-		  console.log("woo");
+          return;
         }
         else {
           var errorString = "No user or user groups";
@@ -204,7 +235,25 @@ server.post( '/api/v1/groups', function(req, res) {
       console.log( errorString );
       res.status(500).send( errorString );
       return;
-    }
+    };
+
+    theirCalendar = new models.Calendar();
+    theirCalendar.name = newGroup.name +" Group Calendar";
+    theirCalendar.owner = id_user;
+
+    theirCalendar.save( function( error2 ) {
+      if( error2 ) {
+        var errorString = "Error saving new user's calendar: " + error2;
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
+      };
+      newGroup.calendar = theirCalendar._id;
+      newGroup.save( function( error3 ) {
+        // should check for error here
+        res.json( { new_id: newGroup._id, calendar: newGroup.calendar } );
+      });
+    });
 
     models.User
       .findByIdAndUpdate( id_user, { $push: { groups: newGroup._id } } )
@@ -215,7 +264,6 @@ server.post( '/api/v1/groups', function(req, res) {
             res.status(500).send( errorString );
             return;
           }
-          res.json( { new_id: newGroup._id } );
         }
       ) // end exec
     ;
@@ -268,15 +316,16 @@ server.post( '/api/v1/events', function(req, res) {
         }
       ) // end exec
     ;
-    if( req.body.privacy === "Public" ) {
+    if( id_group === "Public" ) {
       // post to personal calendar, and maybe some public one???
     }
-    else if( req.body.privacy === "Private" ) {
+    else if( id_group === "Private" ) {
       // only post to personal calendar
     }
     else {
       // post to personal and specific group
-      models.Group
+      console.log( "Trying to post new event to group calendar: " + id_group );
+      models.Calendar
         .findByIdAndUpdate( id_group, { $push: { events: newEvent._id } } )
         .exec( function( error, result ) {
             if( error ) {
