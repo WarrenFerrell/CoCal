@@ -1,37 +1,39 @@
 <div class="row">
-  <div><h1>{{event.title}}</h1></div>
+  <div><h1 class="text-center"><u>{{event.title}}</u></h1></div>
 </div>
 <div class="row">
-  <div><h2>{{event.cost}}</h2></div>
+  <div><h2>Cost: {{event.cost}}</h2></div>
 </div>
 <div class="row">
-  <div>{{event.location}}</div>
+  <div class="col-md-2"><b>Location</b></div>
+  <div class="col-md-10">
+    {{event.location}}
+  </div>
 </div>
 <div class="row">
-  <div class="col-md-2">Description</div>
-  <div class="col-md-10"><input type="text" ng-model="event.description"></input></div>
+  <div class="col-md-2"><b>Description</b></div>
+  <div class="col-md-10">
+    {{event.description}}
+  </div>
 </div>
 <div class="row">
-  <div class="col-md-2">Category</div>
+  <div class="col-md-2"><b>Category</b></div>
   <div class="col-md-10">
     {{event.category}}
   </div>
 </div>
 <div class="row">
-  <div class="col-md-2">Date</div>
+  <div class="col-md-2"><b>Start</b></div>
   <div class="col-md-10">
-    Value
+    {{dateBegin}}
   </div>
 </div>
 <div class="row">
-  <div class="col-md-2">Starting Time</div>
+  <div class="col-md-2"><b>End</b></div>
   <div class="col-md-10">
-    Value
+    {{dateEnd}}
   </div>
 </div>
-<div class="row">
-  <div class="col-md-2">Ending Time</div>
-  <div class="col-md-10">
-    Value
-  </div>
-</div>
+
+<button class="btn btn-warning btn-block" type="button" ng-click="event_clicked_edit()">Edit this Event</button>
+<button class="btn btn-danger btn-block" type="button" ng-click="event_clicked_delete()">Delete this Event</button>

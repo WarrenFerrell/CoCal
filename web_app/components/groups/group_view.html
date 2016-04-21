@@ -1,6 +1,14 @@
 <h1>Group: {{group.name}}</h1>
 <div class="row">
-  <div class="col-md-4">Member List</div>
+  <div class="col-md-4">Member List
+    <div class="btn-group">
+      <button
+        class="btn btn-danger"
+        ng-click="remove_group()">
+        Remove Me
+      </button>
+    </div>
+  </div>
   <div class="col-md-8">
     <select multiple class="form-control">
       <option ng-repeat="member in group.members">{{member}}</option>

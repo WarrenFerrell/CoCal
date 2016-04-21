@@ -7,10 +7,16 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
       console.log( "returned event" );
       console.log( response );
       $scope.event = response;
+      $scope.dateBegin = moment(response.startsAt).format('lll');
+      $scope.dateEnd = moment(response.endsAt).format('lll');
     })
     .error( function() {
       console.log( "error getting event" );
     })
   ;
+
+  $scope.event_clicked_delete = function() {
+    console.log( "trying to delete this event" );
+  };
 
 }]);
