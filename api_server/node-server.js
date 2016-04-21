@@ -159,8 +159,8 @@ server.get( '/api/v1/groups/:userID', function(req, res) {
           return;
         }
       }
-    }
-  );
+    }) // end exec
+  ; // end models.User
 });
 
 server.get( '/api/v1/notifications/:userID', function(req, res) {
@@ -174,16 +174,16 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
       }
       else
       {
-        if(user && user.notifications) {
+        if( user && user.notifications ) {
           res.json( user.notifications );
         }
         else {
-			console.log( "no use for notifications" );
+			    console.log( "no use for notifications" );
           res.send( 500 );
         }
       }
-    }
-  );
+    }); // end exec
+  ; // end models.User
 });
 
 server.post( '/api/v1/notifications/:userID', function(req, res) {
@@ -220,15 +220,15 @@ server.post( '/api/v1/users', function(req, res) {
         console.log( errorString );
         res.status(500).send( errorString );
         return;
-      };
+      }
       newUser.calendar = theirCalendar._id;
       newUser.save( function( error3 ) {
         // should check for error here
         res.json( { newId: newUser._id, calendar: newUser.calendar } );
       });
-    });
-  });
-});
+    }); //end theirCalendar.save()
+  }); // end newUser.save()
+}); // end post
 
 server.post( '/api/v1/groups', function(req, res) {
   const id_user = req.body.id_user;
@@ -266,15 +266,14 @@ server.post( '/api/v1/groups', function(req, res) {
     models.User
       .findByIdAndUpdate( id_user, { $push: { groups: newGroup._id } } )
       .exec( function( error2, result ) {
-          if( error2 ) {
-            var errorString = "Error adding group to user: " + error2
-            console.log( errorString );
-            res.status(500).send( errorString );
-            return;
-          }
+        if( error2 ) {
+          var errorString = "Error adding group to user: " + error2
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
         }
-      ) // end exec
-    ;
+      }) // end exec
+    ; // end models.User
   });
 });
 
@@ -291,20 +290,20 @@ server.post('/api/v1/group_remove', function (req, res) {
           res.status(500).send( errorString );
           return;
         }
-      }
-    ) // end exec
+    } ) // end exec
+  ; // end models.Group
 
   models.User
     .findByIdAndUpdate(user_id, { $pull: { groups: group_id } } )
     .exec( function( error, result ) {
-        if( error ) {
-          var errorString = "Error removing group from user: " + error
-          console.log( errorString );
-          res.status(500).send( errorString );
-          return;
-        }
+      if( error ) {
+        var errorString = "Error removing group from user: " + error
+        console.log( errorString );
+        res.status(500).send( errorString );
+        return;
       }
-    ) // end exec
+    }) // end exec
+  ; // end models.User
 });
 
 server.post( '/api/v1/events', function(req, res) {
@@ -323,7 +322,7 @@ server.post( '/api/v1/events', function(req, res) {
   newEvent = new models.Event();
   newEvent.title = req.body.title;
   newEvent.cost = req.body.cost;
-  newEvent.location = req.body.location;
+  newEvent.location = { cord: req.body.location.geometry.location, loc_id: req.body.location.id };
   newEvent.description = req.body.description;
   newEvent.startsAt = req.body.startsAt;
   newEvent.endsAt = req.body.endsAt;
@@ -345,14 +344,13 @@ server.post( '/api/v1/events', function(req, res) {
     models.Calendar
       .findByIdAndUpdate( id_calendar, { $push: { events: newEvent._id } } )
       .exec( function( error, result ) {
-          if( error ) {
-            var errorString = "Error saving event to calendar: " + error
-            console.log( errorString );
-            res.status(500).send( errorString );
-            return;
-          }
+        if( error ) {
+          var errorString = "Error saving event to calendar: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
         }
-      ) // end exec
+      }) // end exec
     ;
     if( id_group === "Public" ) {
       // post to personal calendar, and maybe some public one???
@@ -378,7 +376,7 @@ server.post( '/api/v1/events', function(req, res) {
     }
 
     res.json( { new_event_id: newEvent._id } );
-  });
+  }); // end newEvent.save()
 });
 
 server.delete( "/api/v1/event_remove", function(req, res) {
