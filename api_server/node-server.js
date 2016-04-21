@@ -194,7 +194,8 @@ server.post( '/api/v1/notifications/:userID', function(req, res) {
 			else {res.json({ notifications: user.notifications});}
 		});
 });
-server.post( '/api/v1/notifications/:userID/:eventID', function(req, res) {
+
+server.post( '/api/v1/notifications/:userID/:eventID/1', function(req, res) {
 	var userID = req.params['userID'];
 	var x = req.params['eventID'];
 	var message = "Event with id " + x + " deleted.";

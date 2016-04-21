@@ -17,7 +17,7 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
 
   $scope.event_clicked_delete = function() {
     console.log( "trying to delete this event" );
-	$http.post('http://localhost:3111/api/v1/notifications/' + Session.id_user + "/" + $stateParams.id_event)
+	$http.post('http://localhost:3111/api/v1/notifications/' + Session.id_user + "/" + $stateParams.id_event + '/1')
 		.success(function(repsonse) {
 			console.log(response);
 		})
