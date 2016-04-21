@@ -15,4 +15,8 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
     })
   ;
 
+  $scope.event_clicked_delete = function() {
+    console.log( "trying to delete this event" );
+  };
+
 }]);
