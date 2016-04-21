@@ -276,8 +276,9 @@ server.post( '/api/v1/events', function(req, res) {
   // the creating user's personal calendar, as well as any selected
   // calendars, such as a group
   // we get the userID and other details from the post body
-  console.log("event to be added to db:");
-  console.log(req.body);
+  //console.log("event to be added to db:");
+  //console.log(req.body);
+  
   var id_user = req.body.id_user;
   var id_calendar = req.body.id_calendar;
   var id_group = req.body.id_group;
@@ -286,7 +287,7 @@ server.post( '/api/v1/events', function(req, res) {
   newEvent = new models.Event();
   newEvent.title = req.body.title;
   newEvent.cost = req.body.cost;
-  newEvent.location = req.body.location;
+  newEvent.location = { cord: req.body.location.geometry.location, loc_id: req.body.location.id };
   newEvent.description = req.body.description;
   newEvent.startsAt = req.body.startsAt;
   newEvent.endsAt = req.body.endsAt;

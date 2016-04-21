@@ -1,4 +1,5 @@
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation#Geolocation_Live_Example
+
 'use strict';
 
 calendar.controller( "Controller_Find_Events", [ '$scope', '$http', 'Session', 'EventTransform', function( $scope, $http, Session, EventTransform ) {
@@ -11,8 +12,8 @@ calendar.controller( "Controller_Find_Events", [ '$scope', '$http', 'Session', '
       console.log( "error" );
     })
   ;
-  $scope.calendarView = 'month';
   $scope.calendarDate = moment();
+
   $scope.event_clicked_findMe = function() {
     var output = document.getElementById("out");
 
@@ -30,11 +31,11 @@ calendar.controller( "Controller_Find_Events", [ '$scope', '$http', 'Session', '
         // var img = new Image();
         // img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
         // output.appendChild(img);
-    };
+    }
 
     function error() {
         output.innerHTML = "Unable to retrieve your location";
-    };
+    }
 
     output.innerHTML = "<p>Locating…</p>";
 
