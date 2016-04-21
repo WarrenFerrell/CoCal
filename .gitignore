@@ -20,4 +20,3 @@ libpeerconnection.log
 npm-debug.log
 /tmp/
 /scripts/bower/bower-*
-/api-server/credentials.js
