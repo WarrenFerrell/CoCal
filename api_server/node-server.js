@@ -175,8 +175,6 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
       else
       {
         if(user && user.notifications) {
-          console.log( "notifications result: " );
-          console.log( user.notifications );
           res.json( user.notifications );
         }
         else {
@@ -188,12 +186,22 @@ server.get( '/api/v1/notifications/:userID', function(req, res) {
   );
 });
 
+server.post( '/api/v1/notifications/:userID', function(req, res) {
+	var userID = req.params['userID'];
+	console.log("user is " + userID);
+	models.User
+		.findOneAndUpdate({ _id : userID}, {notifications : []},function(err,user) {
+			if(err) { console.log("shit"); }
+			else {res.json({ notifications: user.notifications});}
+		});
+});
+
 server.post( '/api/v1/users', function(req, res) {
   newUser = new models.User();
   newUser.name = req.body.name;
   newUser.email = req.body.email;
   newUser.password = req.body.password;
-
+  newUser.notifications = [];
   newUser.save( function( error ) {
     if( error ) {
       var errorString = "Error saving new user: " + error;
