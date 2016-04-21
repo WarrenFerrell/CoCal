@@ -22,6 +22,12 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_Event_New'
     })
 
+    .state('event', {
+      url: '/event/{id_event}',
+      templateUrl: 'components/event/view_event.html',
+      controller: 'Controller_Event_View'
+    })
+
     .state('group', {
       url: '/group',
       templateUrl: 'components/groups/group_meta.html',

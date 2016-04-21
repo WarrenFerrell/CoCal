@@ -78,7 +78,7 @@ calendar.controller( "Controller_Event_New", ['$scope', '$http', '$state', '$sta
 
   const now = moment().toDate();
   $scope.input_date_start = now;
-  $scope.input_date_start = now;
+  $scope.input_date_end = now;
   $scope.input_time_start = now;
   $scope.input_time_end = moment().add(1, 'hour').toDate();
 }]);
