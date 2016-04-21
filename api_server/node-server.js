@@ -206,6 +206,50 @@ server.post( '/api/v1/notifications/:userID/:eventID/1', function(req, res) {
 		});
 });
 
+server.post( '/api/v1/admin_notification/:eventID', function(req, res) {
+  var admin_list;
+  models.User.find({isadmin: true})
+    .exec( function( error, result ) {
+        if( error ) {
+          var errorString = "Error saving event to calendar: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+        admin_list = result;
+      }
+    ) // end exec
+
+  var x = req.params['eventID'];
+  var message = "Event with id " + x + " reported.";
+  admin_list.forEach(function(admin_id){
+    models.User.findOneAndUpdate({ _id : admin_id}, {$push: {notifications : message}},function(err,user) {
+      if(err) { console.log("shit"); }
+      else {res.json({ notifications: user.notifications});}
+    });
+  });
+});
+
+server.get( '/api/v1/admin_notification/:eventID', function(req, res) {
+  var admin_list;
+  models.User.find({isadmin: true})
+    .exec( function( error, result ) {
+        if( error ) {
+          var errorString = "Error saving event to calendar: " + error
+          console.log( errorString );
+          res.status(500).send( errorString );
+          return;
+        }
+        admin_list = result;
+      }
+    ) // end exec
+  console.log("Admin notification")
+  debugger;
+  var x = req.params['eventID'];
+  var message = "Event with id " + x + " reported.";
+  res.json(admin_list);
+});
+
 server.post( '/api/v1/users', function(req, res) {
   newUser = new models.User();
   newUser.name = req.body.name;

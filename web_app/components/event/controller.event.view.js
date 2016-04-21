@@ -28,6 +28,13 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
 
   $scope.event_clicked_report = function() {
     console.log( "trying to report this event" );
+    $http.post('http://localhost:3111/api/v1/admin_notification/' + $stateParams.id_event)
+      .success(function(repsonse) {
+        console.log(response);
+      })
+      .error( function() {
+        console.log("dammmmn");
+      });
   };
 
 }]);
