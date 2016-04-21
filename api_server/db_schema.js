@@ -3,7 +3,10 @@ var mongoose = require('mongoose');
 var schema_Event = new mongoose.Schema({
   title:       { type: String, default: "Default Title" },
   cost:        { type: Number, default: 0 },
-  location:    { type: String, default: "Default Location" },
+  location:    { 
+    cord: { lat: Number, lng: Number},
+    loc_id: String
+  },
   description: { type: String, default: "Default Description" },
   startsAt:    { type: Date },
   endsAt:      { type: Date },
