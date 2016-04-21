@@ -1,22 +1,23 @@
 'use strict';
 
 calendar.controller( "Controller_User", 
-	['$scope', '$rootScope', '$location', 'AuthenticationService',
-	function( $scope,$rootScope,$location,AuthenticationService ) {
+	['$scope', '$rootScope', '$location', 'Session',
+	function( $scope,$rootScope,$location,Session ) {
 		// reset login status
-        AuthenticationService.ClearCredentials();
+        Session.ClearCredentials();
 
         $scope.login = function () {
             $scope.dataLoading = true;
-            var userData = {name: $scope.name, password: $scope.password,idUser: $scope.id_user,idCal: $scope.id_calendar,email: $scope.email,admin: $scope,isAdmin}
-            AuthenticationService.Login($scope.name, $scope.password, function(response) {
-                if(response.success) {
-                	console.log("Successful Login!! with" + $scope.name);
-                    AuthenticationService.SetCredentials(userData);
-                    $location.path('/');
+            Session.Login($scope.name, $scope.password, function(response) {
+                if(response.password === $scope.password) {
+                    var userData = {name: response.name,idUser: response._id, idCal: response.calendar,email: response.email,admin: response.isadmin};
+                    console.log("id of user is: "+ userData.idUser);
+                    Session.SetCredentials(userData);
+                    $location.path('/calendar');
                 } else {
                     $scope.error = response.message;
                     $scope.dataLoading = false;
+                    console.log("Error logging in")
                 }
             });
         };

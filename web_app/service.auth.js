@@ -1,29 +1,25 @@
-// calendar.factory('Session', function () {
-//   // these should be available to every controller
-//   return {
-//     id_user: "56ef8e229df30dea5a776488",
-//     id_calendar: "56ef8e259df30dea5a776489",
-//     name: "Justin",
-//     email: "blah@example.com",
-//   }
-// });
-calendar.factory('AuthenticationService',
-    ['Base64', '$http', '$cookieStore', '$rootScope', '$timeout',
+calendar.factory('Session',
+    ['Base64', '$http', '$cookieStore','$rootScope', '$timeout',
     function (Base64, $http, $cookieStore, $rootScope, $timeout, Session) {
         var service = {};
  
         service.Login = function (name, password, callback) {
         	
-            $http.post('/api/authenticate', { name: name, password: password })
-               .success(function (response) {
-                   callback(response);
-               });
+           $http.get( 'http://localhost:3111/api/v1/users/' + name )
+                .success( function(response) {
+                    console.log( "success login" );
+                    callback( response );
+                })
+                .error( function() {
+                  console.log( "error" );
+                })
+              ;
  
         };
   
         service.SetCredentials = function (user) {
             var authdata = Base64.encode(user.name + ':' + user.password);
-  
+            console.log("SetCrendentials user"+user);
             $rootScope.globals = {
                 currentUser: {
                     id_user: user.idUser,
@@ -34,9 +30,9 @@ calendar.factory('AuthenticationService',
                     authdata: authdata
                 }
             };
-  
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);
+            var currUser = $cookieStore.get('globals');
+            // console.log("currUser: " +currUser.currentUser.name);
         };
   
         service.ClearCredentials = function () {

@@ -8,6 +8,7 @@
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   
   <script src="module.calendar.js"></script>
@@ -47,7 +48,11 @@
           <li ui-sref-active="active"><a ui-sref="group">My Groups</a></li>
           <li ui-sref-active="active"><a ui-sref="notifications">My Notifications</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+
+        <ul <div ng-if="" class="nav navbar-nav navbar-right">
+          <li ui-sref-active="active"><a ui-sref="user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>User: {{name}}</a></li>
+        </ul>
+        <ul <div ng-if="{!$cookieStore.get('globals').currentUser}" class="nav navbar-nav navbar-right">
           <li ui-sref-active="active"><a ui-sref="user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>User: {{name}}</a></li>
         </ul>
       </div><!--/.nav-collapse -->

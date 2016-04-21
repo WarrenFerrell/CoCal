@@ -1,11 +1,10 @@
 'use strict';
 
-calendar.controller( "Controller_Calendar", [ '$scope', '$http', 'Session', 'EventTransform', function( $scope, $http, Session, EventTransform ) {
+calendar.controller( "Controller_Calendar", [ '$scope', '$http', '$cookieStore', 'EventTransform', function( $scope, $http, $cookieStore, EventTransform ) {
   $scope.calendarView = 'month';
   $scope.calendarDate = moment();
   $scope.isCellOpen = true;
-
-  $http.get( 'http://localhost:3111/api/v1/calendar/' + Session.id_calendar )
+  $http.get( 'http://localhost:3111/api/v1/calendar/' + $cookieStore.get('globals').currentUser.id_calendar)
     .success( function(response) {
       console.log( response );
       var events = [];
