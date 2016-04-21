@@ -32,7 +32,7 @@
     "bower": "*",
     "install": "~1.0.4",
     "angular-cookies": "~1.5.5",
-    "google-places": "~0.0.7"
+    "angular-google-places-autocomplete": "0.2.7"
   },
   "resolutions": {
     "moment": "2.10.6"
