@@ -54,7 +54,7 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
 	  .state('register',{
       url: '/register',
       templateUrl: 'components/user/register.html',
-      controller: 'Controller_User'
+      controller: 'Controller_Register'
     })
 	.state('notifications', {
 		url:'/notifications',

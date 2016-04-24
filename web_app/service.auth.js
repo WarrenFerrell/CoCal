@@ -16,7 +16,17 @@ calendar.factory('Session',
               ;
  
         };
-  
+        service.createUser = function(newUser,callback){
+            $http.post('http://localhost:3111/api/v1/users',newUser)
+                .success( function(response){
+                    callback(response);
+                })
+                .error( function(){
+                    console.log("Error, couldn't create new user");
+
+                });
+        };
+         
         service.SetCredentials = function (user) {
             var authdata = Base64.encode(user.name + ':' + user.password);
             console.log("SetCrendentials user"+user);

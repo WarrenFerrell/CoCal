@@ -280,11 +280,28 @@ server.get( '/api/v1/admin_notification/:eventID', function(req, res) {
 });
 
 server.post( '/api/v1/users', function(req, res) {
+  var userName = req.body.name;
+  console.log("username in post call: "+ userName);
   newUser = new models.User();
-  newUser.name = req.body.name;
+  newUser.name = userName;
   newUser.email = req.body.email;
   newUser.password = req.body.password;
   newUser.notifications = [];
+  newUser.isadmin = req.body.isAdmin;
+
+  theirCalendar = new models.Calendar();
+  theirCalendar.name = newUser.name +"'s Personal";
+  theirCalendar.owner = newUser._id;
+  newUser.calendar=theirCalendar._id;
+
+  theirCalendar.save( function( error2 ) {
+    if( error2 ) {
+      var errorString = "Error saving new user's calendar: " + error2;
+      console.log( errorString );
+      res.status(500).send( errorString );
+      return;
+    }
+  }); //end theirCalendar.save()
   newUser.save( function( error ) {
     if( error ) {
       var errorString = "Error saving new user: " + error;
@@ -292,26 +309,12 @@ server.post( '/api/v1/users', function(req, res) {
       res.status(500).send( errorString );
       return;
     }
-
-    theirCalendar = new models.Calendar();
-    theirCalendar.name = newUser.name +"'s Personal";
-    theirCalendar.owner = newUser._id;
-
-    theirCalendar.save( function( error2 ) {
-      if( error2 ) {
-        var errorString = "Error saving new user's calendar: " + error2;
-        console.log( errorString );
-        res.status(500).send( errorString );
-        return;
-      }
-      newUser.calendar = theirCalendar._id;
-      newUser.save( function( error3 ) {
-        // should check for error here
-        res.json( { newId: newUser._id, calendar: newUser.calendar } );
-      });
-    }); //end theirCalendar.save()
+    else{
+      console.log("updated newUser with: "+ JSON.stringify(newUser));
+      res.json({"name": newUser.name});
+    }
   }); // end newUser.save()
-}); // end post
+}); //end post
 
 server.post( '/api/v1/groups', function(req, res) {
   const id_user = req.body.id_user;

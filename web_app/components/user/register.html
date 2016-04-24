@@ -1,33 +1,36 @@
 <div class="col-md-6 col-md-offset-3">
     <h2>Register</h2>
-    <form name="form" ng-submit="vm.register()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
+    <form name="form" ng-submit="Register()" role="form">
+        <div class="form-group" ng-class="form.name.$dirty && form.name.$error.required">
             <label for="name">Name</label>
-            <input type="text" name="firstName" id="firstName" class="form-control" ng-model="vm.user.firstName" required />
-            <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
+            <input type="text" name="name" id="name" class="form-control" ng-model="name" required />
+            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+        <div class="form-group" ng-class="form.email.$dirty && form.email.$error.required">
             <label for="email">Email</label>
-            <input type="text" name="lastName" id="Text1" class="form-control" ng-model="vm.user.lastName" required />
-            <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
+            <input type="text" name="email" id="Text1" class="form-control" ng-model="email" required />
+            <span ng-show="form.password.$dirty && form.email.$error.required" class="help-block">Email is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+        <div class="form-group" ng-class="form.password.$dirty && form.password.$error.required">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
+            <input type="password" name="password" id="password" class="form-control" ng-model="password" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
-        <div class="form-group">
-        <label for="password">Will you be an admin?</label>
-            <div class="radio">
-              <label><input type="radio" name="optradio">Yes</label>
-            </div>
-            <div class="radio">
-              <label><input type="radio" name="optradio" checked="checked">No</label>
-            </div>
+        <div class="form-group" ng-class="isAdmin">
+        <label for="isAdmin"> Will you creating your own group? (i.e. be an admin)</label>
+        <br/>
+        <label>
+            <input type="radio" ng-model="isAdmin" value=true>
+            Yes
+        </label><br/>
+        <label>
+            <input type="radio" checked="checked" ng-model="isAdmin" value=false>
+            No
+        </label>
         </div>
         <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Register</button>
-            <img ng-if="vm.dataLoading" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif" />
+            <button type="submit" ng-disabled="form.$invalid || loading" class="btn btn-primary">Register</button>
+            <img ng-if="loading" src="https://d13yacurqjgara.cloudfront.net/users/12755/screenshots/1037374/hex-loader2.gif" />
             <a href="#/user" class="btn btn-link">Cancel</a>
         </div>
     </form>
