@@ -66,13 +66,6 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
         templateUrl: 'components/find_events/list_events.html',
         controller: 'Controller_Find_Events'
     })
-  function run($state,$cookieStore){
-    //keep user data stored even if browser is refreshed
-    var user = $cookieStore.get('globals')
-    if(user == undefined){
-      $state.go("user", {}, {reload: true});
-    }
-  }
 });
 
 calendar.config( function(calendarConfig) {

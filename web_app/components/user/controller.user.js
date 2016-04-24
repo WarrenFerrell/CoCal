@@ -3,9 +3,7 @@
 calendar.controller( "Controller_User", 
 	['$state','$scope', '$rootScope', '$location', 'Session',
 	function($state,$scope,$rootScope,$location,Session ) {
-		// reset login status
         Session.ClearCredentials();
-
         $scope.login = function () {
             $scope.dataLoading = true;
             Session.Login($scope.name, $scope.password, function(response) {
@@ -21,8 +19,3 @@ calendar.controller( "Controller_User",
             });
         };
     }]);
-  // $scope.name = "justin";
-  // $scope.email = "test@example.com";
-  // $scope.password = "nopassword";
-  // $scope.isadmin = false;
-// });

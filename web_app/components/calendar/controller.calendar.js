@@ -22,6 +22,7 @@ calendar.controller( "Controller_Calendar", [ '$scope', '$http','$state', '$cook
     })
   ;
 
+
   $scope.eventClicked = function( event ) {
     $state.go( "event", { id_event: event._id } );
   }
