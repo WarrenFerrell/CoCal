@@ -1,6 +1,6 @@
 calendar.factory('Session',
     ['Base64', '$http', '$cookieStore','$rootScope', '$timeout',
-    function (Base64, $http, $cookieStore, $rootScope, $timeout, Session) {
+    function (Base64, $http, $cookieStore,$cookies, $rootScope, $timeout, Session) {
         var service = {};
  
         service.Login = function (name, password, callback) {
@@ -11,7 +11,8 @@ calendar.factory('Session',
                     callback( response );
                 })
                 .error( function() {
-                  console.log( "error" );
+                  console.log( "error, couldn't get user" );
+                  alert("Invalid credentials");
                 })
               ;
  

@@ -1,7 +1,10 @@
 'use strict';
 
 calendar.controller( "Controller_Group_Meta", function( $scope, $state, $http, $stateParams, $view, $cookieStore ) {
-  console.log( $cookieStore.get('globals').currentUser.id_user );
+  var user = $cookieStore.get('globals')
+    if(user == undefined){
+      $state.go("user", {}, {reload: true});
+    }
   $http.get( 'http://localhost:3111/api/v1/groups/' + $cookieStore.get('globals').currentUser.id_user )
     .success( function(response) {
       $scope.Groups = response;

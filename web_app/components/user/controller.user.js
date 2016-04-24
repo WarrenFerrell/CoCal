@@ -1,8 +1,8 @@
 'use strict';
 
 calendar.controller( "Controller_User", 
-	['$scope', '$rootScope', '$location', 'Session',
-	function( $scope,$rootScope,$location,Session ) {
+	['$state','$scope', '$rootScope', '$location', 'Session',
+	function($state,$scope,$rootScope,$location,Session ) {
 		// reset login status
         Session.ClearCredentials();
 
@@ -11,9 +11,8 @@ calendar.controller( "Controller_User",
             Session.Login($scope.name, $scope.password, function(response) {
                 if(response.password === $scope.password) {
                     var userData = {name: response.name,idUser: response._id, idCal: response.calendar,email: response.email,admin: response.isadmin, active: true};
-                    console.log("id of user is: "+ userData.idUser);
                     Session.SetCredentials(userData);
-                    $location.path('/calendar');
+                    $state.go("calendar", {}, {reload: true});
                 } else {
                     $scope.error = response.message;
                     $scope.dataLoading = false;

@@ -1,5 +1,9 @@
 'use strict';
 calendar.controller( "Controller_Notifications", function( $scope, $state, $http, $stateParams, $view, $cookieStore ) {
+  var user = $cookieStore.get('globals')
+    if(user == undefined){
+      $state.go("user", {}, {reload: true});
+    }
   $scope.notifications = [];
   $scope.clearDisabled = true;
 

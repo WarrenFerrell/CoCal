@@ -1,7 +1,11 @@
 'use strict';
 
 calendar.controller( "Controller_Calendar", [ '$scope', '$http','$state', '$cookieStore', 'EventTransform', function( $scope, $http, $state, $cookieStore, EventTransform ) {
-
+  
+  var user = $cookieStore.get('globals')
+    if(user == undefined){
+      $state.go("user", {}, {reload: true});
+    }
   $scope.calendarView = 'month';
   $scope.calendarDate = moment();
   $scope.isCellOpen = true;

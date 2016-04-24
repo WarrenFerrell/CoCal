@@ -2,7 +2,11 @@
 
 'use strict';
 
-calendar.controller( "Controller_Find_Events", [ '$scope', '$http', '$cookieStore', 'EventTransform', function( $scope, $http, $cookieStore, EventTransform ) {
+calendar.controller( "Controller_Find_Events", [ '$state','$scope', '$http', '$cookieStore', 'EventTransform', function( $state,$scope, $http, $cookieStore, EventTransform ) {
+    var user = $cookieStore.get('globals')
+    if(user == undefined){
+      $state.go("user", {}, {reload: true});
+    }
     $http.get( 'http://localhost:3111/api/v1/calendar/' + $cookieStore.get('globals').currentUser.id_calendar )
     .success( function(response) {
       $scope.group = response;

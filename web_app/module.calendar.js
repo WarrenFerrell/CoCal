@@ -66,19 +66,12 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
         templateUrl: 'components/find_events/list_events.html',
         controller: 'Controller_Find_Events'
     })
-  function run($rootScope,$http,$location,$localStorage){
+  function run($state,$cookieStore){
     //keep user data stored even if browser is refreshed
-    if($localStorage.currentUser){
-      $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+    var user = $cookieStore.get('globals')
+    if(user == undefined){
+      $state.go("user", {}, {reload: true});
     }
-     // redirect to login page if not logged in and trying to access a restricted page
-        $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            var publicPages = ['/user'];
-            var restrictedPage = publicPages.indexOf($location.path()) === -1;
-            if (restrictedPage && !$localStorage.currentUser) {
-                $location.path('/user');
-            }
-        });
   }
 });
 

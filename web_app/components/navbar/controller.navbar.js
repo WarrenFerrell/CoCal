@@ -1,5 +1,11 @@
 'use strict';
 
 calendar.controller( "Controller_Navbar", function( $scope, $cookieStore, $rootScope) {
-  	$scope.name = "blank";
+	var user = $cookieStore.get('globals');
+	if(user == undefined){
+  		$scope.name = "Login";
+	}
+	else{
+		$scope.name = user.currentUser.name;
+	}
 });
