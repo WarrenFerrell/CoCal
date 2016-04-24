@@ -4,6 +4,6 @@
         ng-disabled="clearDisabled">
   Clear Notifications
 </button>
-<div ng-repeat="notification in notifications">
+<div ng-repeat="notification in notifications track by $index">
   <h4>{{notification}}</h4>
 </div>
