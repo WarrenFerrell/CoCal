@@ -90,6 +90,8 @@ var new_notification_event = function(req, res) {
   });
 };
 
+
+//callback functions must be exported for node-server.js to make use of
 exports.get_notifications_event = get_notifications_event;
 exports.get_notifications_user = get_notifications_user;
 exports.new_notification_event = new_notification_event;

@@ -11,6 +11,7 @@ var schema_Event = new mongoose.Schema({
   startsAt:    { type: Date },
   endsAt:      { type: Date },
   category:    { type: String, default: "Default Category" },
+  privacy: { type: String, default: "Private" },
   owner: { type: mongoose.Schema.Types.ObjectId,
            ref: 'User' },
 });

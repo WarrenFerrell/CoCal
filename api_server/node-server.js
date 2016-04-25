@@ -40,6 +40,8 @@ var server = express();
 server.use( cors() );
 server.use( bodyParser.json() );
 
+//direct node server REST calls to their respective model functions 
+
 server.get( '/api/v1/calendar/:calendarID', calendars.get_calendar );
 
 server.get( '/api/v1/event/:eventID', events.get_event );

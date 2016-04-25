@@ -65,5 +65,7 @@ var new_user = function(req, res) {
   }); // end newUser.save()
 }; //end post
 
+
+//callback functions must be exported for node-server.js to make use of
 exports.get_user = get_user;
 exports.new_user = new_user;

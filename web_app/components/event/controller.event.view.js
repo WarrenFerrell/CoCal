@@ -28,7 +28,8 @@ calendar.controller( "Controller_Event_View", [ '$scope', '$http', '$state', '$s
 
     var details = {
       id_user_calendar: $cookieStore.get('globals').currentUser.id_calendar,
-      id_event: id_event
+      id_event: id_event,
+      id_group: $scope.event.privacy
     };
 
     $http.post( 'http://localhost:3111/api/v1/event_remove', details )

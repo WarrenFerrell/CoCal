@@ -150,6 +150,8 @@ var remove_group = function (req, res) {
   ; // end models.User
 };
 
+
+//callback functions must be exported for node-server.js to make use of
 exports.get_group = get_group;
 exports.get_user_groups = get_user_groups;
 exports.new_group = new_group;

@@ -32,4 +32,6 @@ var get_calendar = function(req, res) {
   );
 };
 
+
+//callback functions must be exported for node-server.js to make use of
 exports.get_calendar = get_calendar;

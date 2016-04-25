@@ -1,4 +1,5 @@
 var models = require('./db_schema');
+var public_cal = "571838cce4b0a280eaf4954a";
 
 var get_event = function(req, res) {
   // this endpoint returns the information about a specfic event
@@ -25,8 +26,6 @@ var get_event = function(req, res) {
       }
     });
 };
-exports.get_event = get_event;
-exports.new_event = new_event;
 
  var new_event = function(req, res) {
   // when posting to this url, we need to create an event on the db,
@@ -38,6 +37,8 @@ exports.new_event = new_event;
   var id_calendar = req.body.id_calendar;
   var id_group = req.body.id_group;
 
+
+
   // first, we create the document with the appropriate values
   newEvent = new models.Event();
   newEvent.title = req.body.title;
@@ -47,6 +48,7 @@ exports.new_event = new_event;
   newEvent.startsAt = req.body.startsAt;
   newEvent.endsAt = req.body.endsAt;
   newEvent.category = req.body.category;
+  newEvent.privacy = req.body.id_group;
   newEvent.owner = req.body.id_user;
 
   // now we commit it to the database
@@ -71,9 +73,18 @@ exports.new_event = new_event;
           return;
         }
       }) // end exec
-    ;
+    
     if( id_group === "Public" ) {
-      // post to personal calendar, and maybe some public one???
+      models.Calendar
+        .findByIdAndUpdate( public_cal, { $push: { events: newEvent._id } } )
+        .exec( function( error, result ) {
+          if( error ) {
+            var errorString = "Error saving event to public calendar: " + error
+            console.log( errorString );
+            res.status(500).send( errorString );
+            return;
+          }
+        })
     }
     else if( id_group === "Private" ) {
       // only post to personal calendar
@@ -90,8 +101,7 @@ exports.new_event = new_event;
               res.status(500).send( errorString );
               return;
             }
-          }
-        ) // end exec
+          }) // end exec
       ; // end post to group calendar
     }
 
@@ -103,6 +113,7 @@ exports.new_event = new_event;
 var remove_event = function(req, res) {
   var id_user_calendar = req.body.id_user_calendar;
   var id_event = req.body.id_event;
+  var id_group = req.body.id_group;
 
   models.Event
     .findByIdAndRemove( id_event )
@@ -113,11 +124,8 @@ var remove_event = function(req, res) {
         res.status(500).send( errorString );
         return;
       }
-      // should have been successful here
-      console.log( "an event was deleted" );
-      res.send();
+      console.log( "Event " + id_event + " deleted" );
     })
-  ;
 
   models.Calendar
     .findByIdAndUpdate( id_user_calendar, { $pull: { events: id_event } } )
@@ -128,12 +136,41 @@ var remove_event = function(req, res) {
         res.status(500).send( errorString );
         return;
       }
-      // should have been successful here
-      console.log( "An event was removed from user calendar" );
+      console.log( "Event removed from user calendar" );
     })
-  ;
+
+  if( id_group === "Public" ) {
+      models.Calendar
+        .findByIdAndUpdate( public_cal, { $pull: { events: id_event } } )
+        .exec( function( error, result ) {
+          if( error ) {
+            var errorString = "Error removing event from public calendar: " + error
+            console.log( errorString );
+            res.status(500).send( errorString );
+            return;
+          }
+          console.log( "Event removed from public calendar" );
+        })
+    }
+    else if( id_group === "Private" ) {
+    }
+    else {
+      models.Calendar
+        .findByIdAndUpdate( id_group, { $pull: { events: id_event } } )
+        .exec( function( error, result ) {
+            if( error ) {
+              var errorString = "Error removing saved event from group calendar: " + error;
+              console.log( errorString );
+              res.status(500).send( errorString );
+              return;
+            }
+            console.log( "Event removed from " + id_group + " calendar" );
+          })  
+    }
+  res.send();
 };
 
+//callback functions must be exported for node-server.js to make use of
 exports.get_event = get_event;
 exports.new_event = new_event;
 exports.remove_event = remove_event;
