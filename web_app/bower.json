@@ -35,5 +35,8 @@
   "resolutions": {
     "moment": "2.10.6",
     "angular": ">=1.3.0"
+  },
+  "devDependencies": {
+    "ng-table": "^0.8.3"
   }
 }
