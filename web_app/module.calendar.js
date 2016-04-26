@@ -1,4 +1,4 @@
-var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap','ngCookies',  'google.places' ]);
+var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap', 'ngCookies', 'google.places', 'ngTable' ] );
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/user' );
@@ -51,21 +51,25 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       templateUrl: 'components/user/user.html',
       controller: 'Controller_User'
     })
-	  .state('register',{
+
+    .state('register', {
       url: '/register',
       templateUrl: 'components/user/register.html',
       controller: 'Controller_Register'
     })
-	.state('notifications', {
-		url:'/notifications',
-		templateUrl: 'components/notifications/notifications.html',
-		controller: 'Controller_Notifications'
-	})
-  .state('find_events', {
-        url:'/find_events',
-        templateUrl: 'components/find_events/list_events.html',
-        controller: 'Controller_Find_Events'
+
+    .state('notifications', {
+      url:'/notifications',
+      templateUrl: 'components/notifications/notifications.html',
+      controller: 'Controller_Notifications'
     })
+
+    .state('find_events', {
+      url:'/find_events',
+      templateUrl: 'components/find_events/list_events.html',
+      controller: 'Controller_Find_Events'
+    })
+  ;
 });
 
 calendar.config( function(calendarConfig) {

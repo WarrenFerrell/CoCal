@@ -1,3 +1,12 @@
 <h1>Home Page</h1>
   <h3>Nothing to see here yet....</h3>
+  <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+    <tr ng-repeat="row in $data">
+      <td data-title="'Title'" sortable="'title'">{{row.title}}</td>
+      <td data-title="'Cost'" sortable="'cost'">{{row.cost}}</td>
+      <td data-title="'Category'" sortable="'category'">{{row.category}}</td>
+      <td data-title="'Starts At'" sortable="'startsAt'">{{row.startsAt}}</td>
+      <td data-title="'Ends At'" sortable="'endsAt'">{{row.endsAt}}</td>
+    </tr>
+  </table>
 </div>
