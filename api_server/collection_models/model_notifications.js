@@ -68,6 +68,9 @@ var new_notification_delete_event = function(req, res) {
 
 var new_notification_event = function(req, res) {
   var admin_list;
+  var user;
+  var x = req.params['eventID'];
+  var message = "Event with id " + x + " reported.";
   models.User.find({isadmin: true})
     .exec( function( error, result ) {
         if( error ) {
@@ -76,19 +79,17 @@ var new_notification_event = function(req, res) {
           res.status(500).send( errorString );
           return;
         }
+		
         admin_list = result;
+		admin_list.forEach(function(admin_id){
+			models.User.findOneAndUpdate({ _id : admin_id}, {$push: {notifications : message}},function(err,user) {
+				if(err) { console.log("shit"); }
+			});
+		});
       }
     ) // end exec
-
-  var x = req.params['eventID'];
-  var message = "Event with id " + x + " reported.";
-  admin_list.forEach(function(admin_id){
-    models.User.findOneAndUpdate({ _id : admin_id}, {$push: {notifications : message}},function(err,user) {
-      if(err) { console.log("shit"); }
-      else {res.json({ notifications: user.notifications});}
-    });
-  });
-};
+  res.status(200);
+ };
 
 
 //callback functions must be exported for node-server.js to make use of
