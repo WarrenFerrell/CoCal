@@ -4,10 +4,10 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/user' );
 
   $stateProvider
-    .state('home', {
-      url: '/home',
-      templateUrl: 'components/home/home.html',
-      controller: 'Controller_Home'
+    .state('find_events', {
+      url:'/find_events',
+      templateUrl: 'components/find_events/list_events.html',
+      controller: 'Controller_Find_Events'
     })
 
     .state('calendar', {
@@ -64,11 +64,7 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       controller: 'Controller_Notifications'
     })
 
-    .state('find_events', {
-      url:'/find_events',
-      templateUrl: 'components/find_events/list_events.html',
-      controller: 'Controller_Find_Events'
-    })
+  
   ;
 });
 

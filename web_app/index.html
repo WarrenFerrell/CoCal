@@ -27,7 +27,8 @@
   <script src="components/groups/controller.group.js"></script>
   <script src="components/notifications/controller.notifications.js"></script>
   <script src="components/find_events/controller.find_events.js"></script>
-
+  <script src="bower_components/angular-google-places-autocomplete/src/autocomplete.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXRS8tzcmU6DMjPP7MTBESwLZn9LVQkoM&libraries=places"></script>
 
   <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css" />
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
@@ -36,8 +37,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 </head>
 <body ng-app="calendar">
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXRS8tzcmU6DMjPP7MTBESwLZn9LVQkoM&libraries=places"></script>
-  <script src="bower_components/angular-google-places-autocomplete/src/autocomplete.js"></script>
+  
   <nav ng-controller="Controller_Navbar" class="navbar navbar-default navbar-static-top">
     <div class="container">
       <div class="navbar-header">
@@ -51,11 +51,11 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+          <li ui-sref-active="active"><a ui-sref="find_events">Find Events</a></li>
           <li ui-sref-active="active"><a ui-sref="calendar">My Calendar</a></li>
           <li ui-sref-active="active"><a ui-sref="group">My Groups</a></li>
           <li ui-sref-active="active"><a ui-sref="notifications">My Notifications</a></li>
-          <li ui-sref-active="active"><a ui-sref="find_events">Find Events</a></li>
+          
         </ul>
 
         <ul <div class="nav navbar-nav navbar-right">
