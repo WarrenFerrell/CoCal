@@ -16,5 +16,20 @@ calendar.factory('EventTransform', function () {
     };
   };
 
+  // function to make the db events look pretty
+  objectHolder.toPresent = function( jsonData ) {
+    console.log( jsonData );
+    return {
+      title:  jsonData.title,
+      cost: jsonData.cost,
+      category: jsonData.category,
+      startsAt: moment( jsonData.startsAt ).format('MMMM Do YYYY, h:mm:ss a'),
+      endsAt: moment( jsonData.endsAt ).format('MMMM Do YYYY, h:mm:ss a'),
+      startsAt_real: moment( jsonData.startsAt ).toDate(),
+      endsAt_real: moment( jsonData.endsAt ).toDate(),
+      _id: jsonData._id,
+    };
+  };
+
   return objectHolder;
 });
