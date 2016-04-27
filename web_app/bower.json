@@ -30,7 +30,8 @@
     "interact": "^1.2.6",
     "angular-animate": "^1.5.0",
     "angular-cookies": "~1.5.5",
-    "angular-google-places-autocomplete": "0.2.7"
+    "angular-google-places-autocomplete": "0.2.7",
+    "angular-input-modified": "^2.3.2"
   },
   "resolutions": {
     "moment": "2.10.6",

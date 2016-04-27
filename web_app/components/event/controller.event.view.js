@@ -61,8 +61,9 @@ calendar.controller( "Controller_Event_View",
         });
     };
 
-    $scope.event_clicked_edit = function() {
-      console.log( "trying to edit event" );
-    }
+  $scope.event_clicked_edit = function() {
+    console.log( "trying to edit event" );
+    $state.go( "edit_event", { id_event: id_event } );
+  }
 
 }]);

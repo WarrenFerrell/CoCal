@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 var calendar = angular.module( "calendar", 
   [ 'ui.router', 'mwl.calendar', 'ui.bootstrap', 'ngCookies', 'google.places', 'ngTable', 'uiGmapgoogle-maps' ] );
+=======
+var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap', 'ngCookies', 'google.places', 'ngTable', 'ngInputModified' ] );
+>>>>>>> a8254d2ef02b881f15b1599530fb52c5fdf92c6e
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/user' );
@@ -22,6 +26,13 @@ calendar.config( function( $stateProvider, $urlRouterProvider ) {
       templateUrl: 'components/event/edit_event.html',
       controller: 'Controller_Event_New'
     })
+
+    .state('edit_event', {
+      url: '/edit/{id_event}',
+      templateUrl: 'components/event/edit_event.html',
+      controller: 'Controller_Event_Edit'
+    })
+
 
     .state('event', {
       url: '/event/{id_event}',

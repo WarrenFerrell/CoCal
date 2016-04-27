@@ -10,6 +10,7 @@ calendar.controller( "Controller_Find_Events",
     const public_cal = "571838cce4b0a280eaf4954a";
     if( user == undefined ) {
       $state.go("user", {}, {reload: true});
+      return;
     }
     $scope.tableParams = new NgTableParams({}, {
       getData: function(params) {

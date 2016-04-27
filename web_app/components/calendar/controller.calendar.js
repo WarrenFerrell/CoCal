@@ -5,6 +5,7 @@ calendar.controller( "Controller_Calendar", [ '$scope', '$http','$state', '$cook
   var user = $cookieStore.get('globals')
     if(user == undefined){
       $state.go("user", {}, {reload: true});
+      return;
     }
   $scope.calendarView = 'month';
   $scope.calendarDate = moment();

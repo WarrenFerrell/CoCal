@@ -1,93 +1,113 @@
+<link rel="stylesheet" href="/bower_components/angular-google-places-autocomplete/src/autocomplete.css">
+<link rel="stylesheet" href="/css/edit_event.css">
+<h3>Event Information</h3>
 
-<div class="panel-heading">
-  <h3>Event Information</h3>
-</div>
 <uib-alert ng-model="alert" ng-show="alert != null" type="{{alert.type}}">{{alert.msg}}</uib-alert>
-<div class="panel-body">
-  <div class="row">
-    <div class="col-md-2">Title</div>
-    <div class="col-md-10"><input type="text" ng-model="input_title"/></div>
+<form name="eventForm" novalidate>
+  <div class="form-group">
+    <label class="control-label">Title:</label>
+    <div class="control input-group fullwidth">
+      <input type="text" class="form-control" ng-model="input_title" placeholder="Enter the event title here...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-show="editEnabled" type="button">Update</button>
+      </span>
+    </div><!-- /input-group -->
   </div>
-  <div class="row">
-    <div class="col-md-2">Cost</div>
-    <div class="col-md-10"><input type="number" ng-model="input_cost"/></div>
+  <div class="form-group">
+    <label class="control-label">Cost:</label>
+    <div class="input-group fullwidth control">
+      <input type="number" class="form-control" ng-model="input_cost" placeholder="0">
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-show="editEnabled" type="button">Update</button>
+      </span>
+    </div><!-- /input-group -->
   </div>
-  <div class="row">
-    <div class="col-md-2">Location</div>
-      <link rel="stylesheet" href="/bower_components/angular-google-places-autocomplete/src/autocomplete.css">
-    <div class="col-md-10"><input type="choice" g-places-autocomplete ng-model="input_location"/></div>
+  <div class="form-group">
+    <label class="control-label">Location:</label>
+    <div class="input-group fullwidth control">
+      <input type="choice" class="form-control" g-places-autocomplete ng-model="input_location" placeholder="CU Boulder?">
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-show="editEnabled" type="button">Update</button>
+      </span>
+    </div><!-- /input-group -->
   </div>
-  <div class="row">
-    <div class="col-md-2">Description</div>
-    <div class="col-md-10"><input type="text" ng-model="input_description"/></div>
+  <div class="form-group">
+    <label class="control-label">Description:</label>
+    <div class="input-group fullwidth control">
+      <input type="text" class="form-control" ng-model="input_description" placeholder="Enter a description for this event...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-show="editEnabled" type="button">Update</button>
+      </span>
+    </div><!-- /input-group -->
+
   </div>
-  <div class="row">
-    <div class="col-md-2">Category</div>
-    <div class="col-md-10">
+  <div class="form-group">
+    <label class="control-label">Category:</label>
+    <div class="input-group fullwidth control">
       <select class="form-control" ng-model="input_category">
         <option ng-repeat="category in Categories">{{category}}</option>
       </select>
-    </div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-show="editEnabled" type="button">Update</button>
+      </span>
+    </div><!-- /input-group -->
   </div>
-  <div class="row">
-    <div class="col-md-2">Privacy</div>
-    <div class="col-md-10">
+  <div class="form-group">
+    <label class="control-label">Privacy</label>
+    <div class="input-group fullwidth control">
       <select class="form-control" ng-model="input_privacy">
         <option value="Public">Public</option>
         <option value="Private">Private</option>
         <option ng-repeat="group in Groups" value="{{group.calendar}}">{{group.name}}</option>
       </select>
-    </div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-show="editEnabled" type="button">Update</button>
+      </span>
+    </div><!-- /input-group -->
   </div>
-  <div class="row" style="border:3px solid rgba(86,61,124,.2)">
-    <div class="col-md-12">
-      <div class="row text-center"><h1>Date Information</h1></div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-12 text-center"><h2>Beginning</h2></div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <uib-datepicker
-                ng-model="input_date_start"
-                datepicker-options="date_options"
-              />
-            </div>
-            <div class="col-md-6">
-              <uib-timepicker
-                ng-model="input_time_start"
-                hour-step="hstep"
-                minute-step="mstep"
-                show-meridian="hours_24"
-                />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-12 text-center"><h2>End</h2></div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <uib-datepicker
-                ng-model="input_date_end"
-                datepicker-options="date_options"
-              />
-            </div>
-            <div class="col-md-6">
-              <uib-timepicker
-                ng-model="input_time_end"
-                hour-step="hstep"
-                minute-step="mstep"
-                show-meridian="hours_24"
-                />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+  <div class="form-group">
+    <label class="control-label">Start of the Event</label>
+    <div class="input-group">
+      <input
+        class="form-control"
+        type="text"
+        ng-model="input_date_start"
+        required
+        uib-datepicker-popup="dd.MM.yyyy"
+        is-open="dateStart.opened"
+        ng-focus="dateStart.opened = true"
+        datepicker-options="date_options"
+      > <!-- end input -->
+      <uib-timepicker
+        ng-model="input_time_start"
+        hour-step="hstep"
+        minute-step="mstep"
+        show-meridian="hours_24"
+      /> <!-- end input -->
+    </div><!-- /input-group -->
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Start of the Event</label>
+    <div class="input-group">
+      <input
+        class="form-control"
+        type="text"
+        ng-model="input_date_end"
+        required
+        uib-datepicker-popup="dd.MM.yyyy"
+        is-open="dateEnd.opened"
+        ng-focus="dateEnd.opened = true"
+        datepicker-options="date_options"
+      > <!-- end input -->
+      <uib-timepicker
+        ng-model="input_time_end"
+        hour-step="hstep"
+        minute-step="mstep"
+        show-meridian="hours_24"
+      /> <!-- end input -->
+    </div><!-- /input-group -->
   </div>
 
   <div class="row">
@@ -95,4 +115,4 @@
       Save Event
     </button>
   </div>
-</div>
+</form>
