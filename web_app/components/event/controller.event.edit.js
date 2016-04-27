@@ -1,9 +1,31 @@
 'use strict';
 
-calendar.controller( "Controller_Event_New",
-  ['$scope', '$http', '$state', '$stateParams', '$cookieStore', function( $scope, $http, $state, $stateParams, $cookieStore )
-  {
-  $scope.editEnabled = false;
+calendar.controller( "Controller_Event_Edit",
+  ['$scope', '$http', '$state', '$stateParams', '$cookieStore', '$timeout',
+  function( $scope, $http, $state, $stateParams, $cookieStore, $timeout ) {
+    $scope.editEnabled = true;
+    const id_event = $stateParams.id_event;
+    console.log( "event id = " + id_event );
+    $http.get( 'http://localhost:3111/api/v1/event/' + id_event )
+      .success( function(response) {
+        console.log( "returned event" );
+        console.log( response );
+        $scope.input_title = response.title;
+        $scope.input_category = response.category;
+        $scope.input_privacy = response.privacy;
+        $scope.input_cost = response.cost;
+        $scope.input_location = response.location;
+        $scope.input_description = response.description;
+        $timeout(function () {
+          console.log("hopefully")
+          $scope.eventForm.$setPristine();
+        });
+      })
+      .error( function() {
+        console.log( "error getting event" );
+      })
+    ;
+
   $scope.Categories = ['Art', 'Entertainment', 'Dog Shows', 'Athletic Competitions'];
   $scope.input_category = $scope.Categories[0];
   $scope.input_privacy = "Public";
@@ -59,9 +81,9 @@ calendar.controller( "Controller_Event_New",
       id_calendar: $cookieStore.get('globals').currentUser.id_calendar
     };
 
-    $http.post( 'http://localhost:3111/api/v1/events', details )
+    $http.post( 'http://localhost:3111/api/v1/event', details )
       .success( function( response ) {
-        console.log( "event succesfully created" );
+        console.log( "event succesfully updated" );
         $state.go( "calendar", {}, { reload: true } );
       })
       .error( function() {
