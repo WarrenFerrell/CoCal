@@ -1,23 +1,25 @@
 <div class="row">
   <button class="btn btn-primary" type="button" ng-click="clicked_findMe()">Find Events Near Me</button>
-  Within <select class="form-control" ng-model="input_distance">
-	    <option value="5">5</option>
-		<option value="10">10</option>
-    </select>
-    miles.
-  </div>
-  <div id="out"></div>
+  Within
+  <select ng-model="input_distance">
+	  <option value="5">5</option>
+	  <option value="10">10</option>
+  </select>
+  miles.
+</div>
+
+<div id="out"></div>
   <div class="col-md-10">
     <div ui-view></div>
   </div>
 </div>
 
- <table ng-table="tableParams" class="table">
-   <tr ng-repeat="row in $data" ng-click = "clicked_Event_Go(event.__id)">
-      <td data-title="'Title'" sortable="'title'">{{row.title}}</td>
-      <td data-title="'Cost'" sortable="'cost'">{{row.cost}}</td>
-      <td data-title="'Category'" sortable="'category'">{{row.category}}</td>
-      <td data-title="'Starts At'" sortable="'startsAt'">{{row.startsAt}}</td>
-       <td data-title="'Ends At'" sortable="'endsAt'">{{row.endsAt}}</td>
-     </tr>
-   </table>
+<table ng-table="tableParams" class="table">
+  <tr ng-repeat="row in $data" ng-click = "clicked_Event_Go(event.__id)">
+    <td data-title="'Title'" sortable="'title'">{{row.title}}</td>
+    <td data-title="'Cost'" sortable="'cost'">{{row.cost}}</td>
+    <td data-title="'Category'" sortable="'category'">{{row.category}}</td>
+    <td data-title="'Starts At'" sortable="'startsAt_real'">{{row.startsAt}}</td>
+    <td data-title="'Ends At'" sortable="'endsAt_real'">{{row.endsAt}}</td>
+  </tr>
+</table>
