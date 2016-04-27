@@ -19,7 +19,7 @@
 </div>
 
 <table ng-table="tableParams" class="table">
-  <tr ng-repeat="row in $data" ng-click = "onClick_EventGo(row.__id)">
+  <tr ng-repeat="row in $data" ng-click = "onClick_EventGo(row._id)">
     <td data-title="'Title'" sortable="'title'">{{row.title}}</td>
     <td data-title="'Cost'" sortable="'cost'">{{row.cost}}</td>
     <td data-title="'Category'" sortable="'category'">{{row.category}}</td>

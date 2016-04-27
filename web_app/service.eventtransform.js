@@ -2,7 +2,6 @@ calendar.factory('EventTransform', function () {
   // these should be available to every controller
   var objectHolder = {};
   objectHolder.toNg = function( jsonData ) {
-    console.log( jsonData );
     return {
       title:  jsonData.title,
       cost: jsonData.cost,
@@ -18,7 +17,6 @@ calendar.factory('EventTransform', function () {
 
   // function to make the db events look pretty
   objectHolder.toPresent = function( jsonData ) {
-    console.log( jsonData );
     return {
       title:  jsonData.title,
       cost: jsonData.cost,
