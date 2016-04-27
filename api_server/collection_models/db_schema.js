@@ -4,7 +4,7 @@ var schema_Event = new mongoose.Schema({
   title:       { type: String, default: "Default Title" },
   cost:        { type: Number, default: 0 },
   location:    { 
-    cord: { lat: Number, lng: Number},
+    coords: { latitude: Number, longitude: Number},
     loc_id: String
   },
   description: { type: String, default: "Default Description" },

@@ -1,4 +1,5 @@
-var calendar = angular.module( "calendar", [ 'ui.router', 'mwl.calendar', 'ui.bootstrap', 'ngCookies', 'google.places', 'ngTable' ] );
+var calendar = angular.module( "calendar", 
+  [ 'ui.router', 'mwl.calendar', 'ui.bootstrap', 'ngCookies', 'google.places', 'ngTable', 'uiGmapgoogle-maps' ] );
 
 calendar.config( function( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/user' );
@@ -74,4 +75,12 @@ calendar.config( function(calendarConfig) {
     // calendarConfig.displayEventEndTimes = true; //This will display event end times on the month and year views. Default false.
     // calendarConfig.showTimesOnWeekView = true; //Make the week view more like the day view, with the caveat that event end times are ignored.
   });
+
+calendar.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyBXRS8tzcmU6DMjPP7MTBESwLZn9LVQkoM',
+        //v: '3.24', //defaults to latest 3.X anyhow
+        libraries: 'weather,geometry,visualization,places'
+    });
+})
 

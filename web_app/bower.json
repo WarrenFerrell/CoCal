@@ -37,6 +37,7 @@
     "angular": ">=1.3.0"
   },
   "devDependencies": {
-    "ng-table": "^0.8.3"
+    "ng-table": "^0.8.3",
+    "angular-google-maps": "^2.3.2"
   }
 }

@@ -3,8 +3,8 @@
 'use strict';
 
 calendar.controller( "Controller_Find_Events",
-  [ '$state', '$scope', '$http', '$cookieStore', 'EventTransform', 'NgTableParams', '$filter', 
-  function( $state, $scope, $http, $cookieStore, EventTransform, NgTableParams , $filter ) {
+  [ '$state', '$scope', '$http', '$cookieStore', 'EventTransform', 'NgTableParams', '$filter', 'uiGmapGoogleMapApi',
+  function( $state, $scope, $http, $cookieStore, EventTransform, NgTableParams , $filter, uiGmapGoogleMapApi ) {
 
     var user = $cookieStore.get('globals')
     const public_cal = "571838cce4b0a280eaf4954a";
@@ -20,7 +20,6 @@ calendar.controller( "Controller_Find_Events",
             angular.forEach( response.data, function( value, index ) {
               events.push( EventTransform.toPresent(value) );
             });
-            //console.log(events);
             return $filter('orderBy')(events, params.orderBy());
           },
           function error( response ) {
@@ -30,12 +29,13 @@ calendar.controller( "Controller_Find_Events",
       } // end getData
     }); // end table params
     
-    $scope.clicked_Event_Go = function( id ) {
+    $scope.onClick_EventGo = function( id ) {
       $state.go( 'event', { id_event : id } );
     };
 
-    $scope.clicked_findMe = function() {
+    $scope.onClick_findMe = function() {
       var output = document.getElementById("out");
+
 
       if( !navigator.geolocation ) {
         output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
@@ -43,21 +43,18 @@ calendar.controller( "Controller_Find_Events",
       }
 
       function success(position) {
+        $scope.position = position;
         var latitude  = position.coords.latitude;
         var longitude = position.coords.longitude;
-        var map;
-        function initMap() {
-          map = new google.maps.Map(document.getElementById('map'), {
-          center : {lat: latitude, lng: longitude}, //{event.location.cord},
-          zoom: 8
-          });
-        }
-
+        uiGmapGoogleMapApi.then(function(maps) {
+          $scope.map = { center: $scope.position.coords, zoom: 8, bounds: {} };
+          $scope.marker = { id: 0, coords: $scope.postion.coords, options: { draggable: false } };
+        });
+        
         output.innerHTML = '<p>Latitude is ' + latitude + '&deg; <br>Longitude is ' + longitude + '&deg;</p>';
 
         //var img = new Image();
         //img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
-        output.appendChild(map);
       } // end success
 
       function error() {

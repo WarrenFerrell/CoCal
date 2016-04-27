@@ -1,5 +1,9 @@
+<style type = "text/css">
+	.angular-google-map-container { height: 400px; }
+</style>
+
 <div class="row">
-  <button class="btn btn-primary" type="button" ng-click="clicked_findMe()">Find Events Near Me</button>
+  <button class="btn btn-primary" type="button" ng-click="onClick_findMe()">Find Events Near Me</button>
   Within
   <select ng-model="input_distance">
 	  <option value="5">5</option>
@@ -15,11 +19,19 @@
 </div>
 
 <table ng-table="tableParams" class="table">
-  <tr ng-repeat="row in $data" ng-click = "clicked_Event_Go(event.__id)">
+  <tr ng-repeat="row in $data" ng-click = "onClick_EventGo(row.__id)">
     <td data-title="'Title'" sortable="'title'">{{row.title}}</td>
     <td data-title="'Cost'" sortable="'cost'">{{row.cost}}</td>
     <td data-title="'Category'" sortable="'category'">{{row.category}}</td>
+    <td data-title="'Location'" sortable="'location'">  </td>
     <td data-title="'Starts At'" sortable="'startsAt_real'">{{row.startsAt}}</td>
     <td data-title="'Ends At'" sortable="'endsAt_real'">{{row.endsAt}}</td>
   </tr>
 </table>
+<ui-gmap-google-map center='map.center' zoom='map.zoom'>
+	<ui-gmap-marker coords="marker.coords" options="marker.options" idkey="marker.id">
+        </ui-gmap-marker>
+</ui-gmap-google-map>
+	
+
+	

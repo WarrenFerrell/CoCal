@@ -23,6 +23,7 @@ calendar.factory('EventTransform', function () {
       title:  jsonData.title,
       cost: jsonData.cost,
       category: jsonData.category,
+      location: jsonData.location.loc_id,
       startsAt: moment( jsonData.startsAt ).format('MMMM Do YYYY, h:mm:ss a'),
       endsAt: moment( jsonData.endsAt ).format('MMMM Do YYYY, h:mm:ss a'),
       startsAt_real: moment( jsonData.startsAt ).toDate(),
